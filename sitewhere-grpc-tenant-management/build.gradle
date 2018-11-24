@@ -44,12 +44,60 @@ eclipse.classpath.file.whenMerged {
 	entries += gjava
 }
 
-// Publish jar.
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allJava
+    classifier = 'sources'
+}
+
+task javadocJar(type: Jar) {
+    from javadoc
+    classifier = 'javadoc'
+}
+
+// Publish jar.	
 apply plugin: 'maven-publish'
 publishing {
 	publications {
-        mavenJava(MavenPublication) {
-            from components.java
-        }
+		mavenJava(MavenPublication) {
+		    from components.java
+            artifact sourcesJar
+            artifact javadocJar
+			pom {
+			    name = 'Tenant Management gRPC'
+			    description = 'SiteWhere Tenant Management gRPC API'
+			    url = 'http://sitewhere.io'
+			    licenses {
+			        license {
+			            name = 'CPAL-1.0'
+			            url = 'https://opensource.org/licenses/CPAL-1.0'
+			        }
+			    }
+                developers {
+                    developer {
+                        id = 'admin'
+                        name = 'SiteWhere Admin'
+                        email = 'admin@sitewhere.com'
+                    }
+                }
+                scm {
+                    connection = 'https://github.com/sitewhere/sitewhere-grpc-api.git'
+                    url = 'https://github.com/sitewhere/sitewhere-grpc-api'
+                }
+			}	
+		}
 	}
+    repositories {
+        maven {
+            url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+            credentials {
+                username project.nexusUsername
+                password project.nexusPassword
+            }
+        }
+    }
+}
+
+apply plugin: 'signing'
+signing {
+    sign publishing.publications.mavenJava
 }
