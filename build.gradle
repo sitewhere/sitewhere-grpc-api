@@ -1,0 +1,38 @@
+buildscript {
+	repositories {
+		maven { url "https://plugins.gradle.org/m2/" }
+ 	}
+	dependencies {
+		classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.3'
+		classpath "gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:0.14.0"
+	}
+}
+
+ext['protobuf.version'] = '3.3.0'
+ext['grpc.version'] = '1.15.0'
+
+apply plugin: 'distribution'
+    
+allprojects {
+    group = 'com.sitewhere'
+	version = '2.0.0'
+	
+    repositories {
+        maven { url "http://repo.maven.apache.org/maven2" }
+    }
+}
+
+subprojects {
+	apply plugin: 'eclipse'
+	
+	apply plugin: "com.github.hierynomus.license"
+	license {
+		header rootProject.file('HEADER')
+    	include "**/*.java"
+	}
+ 	
+ 	// Choose Java settings.
+    apply plugin: 'java'
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
