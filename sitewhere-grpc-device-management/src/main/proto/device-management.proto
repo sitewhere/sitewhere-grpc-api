@@ -284,19 +284,6 @@ service DeviceManagement {
 	// End a device assignment.
 	rpc EndDeviceAssignment (GEndDeviceAssignmentRequest) returns (GEndDeviceAssignmentResponse) {}
 
-	// ######################
-	// ### DEVICE STREAMS ###
-	// ######################
-	
-	// Create a new device stream.
-	rpc CreateDeviceStream (GCreateDeviceStreamRequest) returns (GCreateDeviceStreamResponse) {}	
-	
-	// Get device stream by stream id.
-	rpc GetDeviceStreamByStreamId (GGetDeviceStreamByStreamIdRequest) returns (GGetDeviceStreamByStreamIdResponse) {}
-
-	// List devices streams that meet criteria.
-	rpc ListDeviceStreams (GListDeviceStreamsRequest) returns (GListDeviceStreamsResponse) {}
-
 	// #####################
 	// ### DEVICE ALARMS ###
 	// #####################
@@ -1029,43 +1016,6 @@ message GEndDeviceAssignmentResponse {
 	com.sitewhere.grpc.model.GDeviceAssignment assignment = 1;
 }
 
-// ######################
-// ### DEVICE STREAMS ###
-// ######################
-	
-// Request for creating a device stream.
-message GCreateDeviceStreamRequest {
-	com.sitewhere.grpc.model.GUUID assignmentId = 1;
-	com.sitewhere.grpc.model.GDeviceStreamCreateRequest request = 2;
-}
-
-// Response from creating a device stream.
-message GCreateDeviceStreamResponse {
-	com.sitewhere.grpc.model.GDeviceStream deviceStream = 1;
-}
-
-// Request for getting a device stream by stream id.
-message GGetDeviceStreamByStreamIdRequest {
-	com.sitewhere.grpc.model.GUUID assignmentId = 1;
-	string streamId = 2;
-}
-	
-// Response for getting a device stream by stream id.
-message GGetDeviceStreamByStreamIdResponse {
-	com.sitewhere.grpc.model.GDeviceStream deviceStream = 1;
-}
-	
-// Request for listing device streams that meet criteria.
-message GListDeviceStreamsRequest {
-	com.sitewhere.grpc.model.GUUID assignmentId = 1;
-	com.sitewhere.grpc.model.GDeviceStreamSearchCriteria criteria = 2;
-}
-	
-// Response for listing device streams that meet criteria.
-message GListDeviceStreamsResponse {
-	com.sitewhere.grpc.model.GDeviceStreamSearchResults results = 1;
-}
-	
 // #####################
 // ### DEVICE GROUPS ###
 // #####################
