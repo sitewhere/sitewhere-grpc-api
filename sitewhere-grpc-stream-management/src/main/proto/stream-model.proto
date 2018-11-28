@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package com.sitewhere.grpc.model;
+
+option java_outer_classname = "StreamModel";
+
+import "sitewhere-common.proto";
+
+// ######################
+// ### DEVICE STREAMS ###
+// ######################
+
+// Request data for creating a device stream.
+message GDeviceStreamCreateRequest {
+	GOptionalString token = 1;
+	GOptionalString contentType = 2;
+	map<string, string> metadata = 3;
+}
+
+// Criteria for searching device streams.
+message GDeviceStreamSearchCriteria {
+	GPaging paging = 1;
+}
+
+// Results for device stream search.
+message GDeviceStreamSearchResults {
+	int64 count = 1;
+	repeated GDeviceStream streams = 2;
+}
+
+// Device stream.
+message GDeviceStream {
+	GUUID deviceAssignmentId = 1;
+	string contentType = 2;
+	GEntityInformation entityInformation = 3;
+}

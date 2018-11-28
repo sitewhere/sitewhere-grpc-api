@@ -317,38 +317,6 @@ message GDeviceAssignment {
 }
 
 // ######################
-// ### DEVICE STREAMS ###
-// ######################
-
-// Request data for creating a device stream.
-message GDeviceStreamCreateRequest {
-	string streamId = 1;
-	string contentType = 2;
-	map<string, string> metadata = 3;
-}
-
-// Criteria for searching device streams.
-message GDeviceStreamSearchCriteria {
-	GPaging paging = 1;
-}
-
-// Results for device stream search.
-message GDeviceStreamSearchResults {
-	int64 count = 1;
-	repeated GDeviceStream streams = 2;
-}
-
-// Device stream.
-message GDeviceStream {
-	GUUID id = 1;
-	string streamId = 2;
-	string contentType = 3;
-	GUUID deviceAssignmentId = 4;
-	map<string, string> metadata = 5;
-	GEntityInformation entityInformation = 6;
-}
-
-// ######################
 // ### CUSTOMER TYPES ###
 // ######################
 

@@ -1,0 +1,103 @@
+description = 'SiteWhere Device Stream Management GRPC Model'
+
+apply plugin: 'com.google.protobuf'
+
+dependencies {
+    compile project(':sitewhere-grpc-common')
+}
+
+protobuf {
+
+	// Configure the protoc executable
+	protoc {
+	
+		// Download from repositories.
+		artifact = "com.google.protobuf:protoc:3.3.0"
+	}
+  
+  	// Add GRPC plugin.
+	plugins {
+		grpc {
+			artifact = "io.grpc:protoc-gen-grpc-java:${rootProject.ext['grpc.version']}"
+		}
+	}
+  
+	// Choose which tasks are executed.
+	generateProtoTasks {
+		all().each { task ->
+      		task.plugins {
+        		grpc {}
+      		}
+      	}
+	}
+	
+	generatedFilesBaseDir = "$projectDir/src/generated"
+}
+
+apply plugin: 'eclipse'
+eclipse.classpath.file.whenMerged {
+	def grpc = new org.gradle.plugins.ide.eclipse.model.SourceFolder('src/generated/main/grpc', null)
+	grpc.getEntryAttributes().put("ignore_optional_problems", "true")
+	entries += grpc
+	def gjava = new org.gradle.plugins.ide.eclipse.model.SourceFolder('src/generated/main/java', null)
+	gjava.getEntryAttributes().put("ignore_optional_problems", "true")
+	entries += gjava
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allJava
+    classifier = 'sources'
+}
+
+task javadocJar(type: Jar) {
+    from javadoc
+    classifier = 'javadoc'
+}
+
+// Publish jar.	
+apply plugin: 'maven-publish'
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+		    from components.java
+            artifact sourcesJar
+            artifact javadocJar
+			pom {
+			    name = 'Device Stream Management gRPC'
+			    description = 'SiteWhere Device Stream Management gRPC API'
+			    url = 'http://sitewhere.io'
+			    licenses {
+			        license {
+			            name = 'CPAL-1.0'
+			            url = 'https://opensource.org/licenses/CPAL-1.0'
+			        }
+			    }
+                developers {
+                    developer {
+                        id = 'admin'
+                        name = 'SiteWhere Admin'
+                        email = 'admin@sitewhere.com'
+                    }
+                }
+                scm {
+                    connection = 'https://github.com/sitewhere/sitewhere-grpc-api.git'
+                    url = 'https://github.com/sitewhere/sitewhere-grpc-api'
+                }
+			}	
+		}
+	}
+    repositories {
+        maven {
+            url project.nexusUrl
+            credentials {
+                username project.nexusUsername
+                password project.nexusPassword
+            }
+        }
+    }
+}
+
+apply plugin: 'signing'
+signing {
+    sign publishing.publications.mavenJava
+}
