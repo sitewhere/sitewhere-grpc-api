@@ -41,11 +41,14 @@ service BatchManagement {
 	// ### BATCH OPERATION ELEMENTS ###
 	// ################################
 	
-	// List batch operation elements.
-	rpc ListBatchOperationElements (GListBatchOperationElementsRequest) returns (GListBatchOperationElementsResponse) {}
+	// Create batch element.
+	rpc CreateBatchElement (GCreateBatchElementRequest) returns (GCreateBatchElementResponse) {}
 	
-	// Update a batch operation element.
-	rpc UpdateBatchOperationElement (GUpdateBatchOperationElementRequest) returns (GUpdateBatchOperationElementResponse) {}
+	// List batch elements.
+	rpc ListBatchElements (GListBatchElementsRequest) returns (GListBatchElementsResponse) {}
+	
+	// Update a batch element.
+	rpc UpdateBatchElement (GUpdateBatchElementRequest) returns (GUpdateBatchElementResponse) {}
 }
 
 // ########################
@@ -123,28 +126,39 @@ message GDeleteBatchOperationResponse {
 	com.sitewhere.grpc.model.GBatchOperation batchOperation = 1;
 }
 
-// ################################
-// ### BATCH OPERATION ELEMENTS ###
-// ################################
+// ######################
+// ### BATCH ELEMENTS ###
+// ######################
 	
-// Request for listing batch operation elements that meet criteria.
-message GListBatchOperationElementsRequest {
+// Request for creating a batch element.
+message GCreateBatchElementRequest {
 	com.sitewhere.grpc.model.GUUID batchOperationId = 1;
-	com.sitewhere.grpc.model.GBatchOperationElementSearchCriteria criteria = 2;
+	com.sitewhere.grpc.model.GBatchElementCreateRequest request = 2;
 }
 	
-// Response for listing batch operation elements that meet criteria.
-message GListBatchOperationElementsResponse {
-	com.sitewhere.grpc.model.GBatchOperationElementSearchResults results = 1;
+// Response for creating a batch element.
+message GCreateBatchElementResponse {
+	com.sitewhere.grpc.model.GBatchElement element = 1;
 }
 	
-// Request for updating a batch operation element.
-message GUpdateBatchOperationElementRequest {
+// Request for listing batch elements that meet criteria.
+message GListBatchElementsRequest {
+	com.sitewhere.grpc.model.GUUID batchOperationId = 1;
+	com.sitewhere.grpc.model.GBatchElementSearchCriteria criteria = 2;
+}
+	
+// Response for listing batch elements that meet criteria.
+message GListBatchElementsResponse {
+	com.sitewhere.grpc.model.GBatchElementSearchResults results = 1;
+}
+	
+// Request for updating a batch element.
+message GUpdateBatchElementRequest {
 	com.sitewhere.grpc.model.GUUID elementId = 1;
-	com.sitewhere.grpc.model.GBatchOperationElementUpdateRequest request = 3;
+	com.sitewhere.grpc.model.GBatchElementCreateRequest request = 2;
 }
 	
-// Response for updating a batch operation element.
-message GUpdateBatchOperationElementResponse {
-	com.sitewhere.grpc.model.GBatchOperationElement element = 1;
+// Response for updating a batch element.
+message GUpdateBatchElementResponse {
+	com.sitewhere.grpc.model.GBatchElement element = 1;
 }
