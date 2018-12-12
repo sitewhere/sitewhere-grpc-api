@@ -110,3 +110,13 @@ message GBatchElement {
 	uint64 processedDate = 5;
 	map<string, string> metadata = 6;
 }
+
+// ######################
+// ### KAFKA PAYLOADS ###
+// ######################
+
+// Unprocessed batch operation information.
+message GUnprocessedBatchOperation {
+	GBatchOperation batchOperation = 1;
+	repeated string deviceTokens = 2;
+}
