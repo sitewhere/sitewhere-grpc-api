@@ -14,8 +14,8 @@ import "sitewhere-common.proto";
 enum GBatchOperationStatus {
 	BATCH_OPERATION_STATUS_UNPROCESSED = 0;
 	BATCH_OPERATION_STATUS_INITIALIZING = 1;
-	BATCH_OPERATION_STATUS_INITIALIZED = 2;
-	BATCH_OPERATION_STATUS_PROCESSING = 3;
+	BATCH_OPERATION_STATUS_INITIALIZED_SUCCESSFULLY = 2;
+	BATCH_OPERATION_STATUS_INITIALIZED_WITH_ERRORS = 3;
 	BATCH_OPERATION_STATUS_FINISHED_SUCCESSFULLY = 4;
 	BATCH_OPERATION_STATUS_FINISHED_WITH_ERRORS = 5;
 }
@@ -119,4 +119,9 @@ message GBatchElement {
 message GUnprocessedBatchOperation {
 	GBatchOperation batchOperation = 1;
 	repeated string deviceTokens = 2;
+}
+
+// Unprocessed batch element information.
+message GUnprocessedBatchElement {
+	GBatchElement batchElement = 1;
 }
