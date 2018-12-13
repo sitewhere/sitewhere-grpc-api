@@ -89,9 +89,14 @@ message GBatchElementCreateRequest {
 	map<string, string> metadata = 3;
 }
 
+// Optional filter for processing status.
+message GElementProcessingStatusFilter {
+	GElementProcessingStatus processingStatus = 1;
+}
+
 // Criteria for searching batch elements.
 message GBatchElementSearchCriteria {
-	GElementProcessingStatus processingStatus = 1;
+	GElementProcessingStatusFilter processingStatusFilter = 1;
 	GPaging paging = 2;
 }
 
