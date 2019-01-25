@@ -165,6 +165,19 @@ message GDeviceElementMapping {
 	string deviceToken = 2;
 }
 
+// Request for registering a device.
+message GDeviceRegistrationRequest {
+	GOptionalString token = 1;
+	GOptionalString deviceTypeToken = 2;
+	GOptionalString parentDeviceToken = 3;
+	GOptionalString customerToken = 4;
+	GOptionalString areaToken = 5;
+	repeated GDeviceElementMapping deviceElementMappings = 6;
+	GOptionalString comments = 7;
+	GOptionalString status = 8;
+	map<string, string> metadata = 9;
+}
+
 // Request for creating a device.
 message GDeviceCreateRequest {
 	GOptionalString token = 1;
@@ -561,4 +574,16 @@ message GDeviceAlarm {
 	uint64 acknowledgedDate = 11;
 	uint64 resolvedDate = 12;
 	map<string, string> metadata = 13;
+}
+
+// ######################
+// ### KAFKA PAYLOADS ###
+// ######################
+
+// Device registration payload.
+message GDeviceRegistationPayload {
+	string sourceId = 1;
+	string deviceToken = 2;
+	com.sitewhere.grpc.model.GOptionalString originator = 3;
+	com.sitewhere.grpc.model.GDeviceRegistrationRequest registration = 4;
 }
