@@ -55,6 +55,9 @@ service DeviceManagement {
 	
 	// List customers that meet criteria.
 	rpc ListCustomers (GListCustomersRequest) returns (GListCustomersResponse) {}
+		
+	// Get tree representation of customers hierarchy.
+	rpc GetCustomersTree (GGetCustomersTreeRequest) returns (GGetCustomersTreeResponse) {}
 	
 	// Delete an existing customer.
 	rpc DeleteCustomer (GDeleteCustomerRequest) returns (GDeleteCustomerResponse) {}
@@ -102,6 +105,9 @@ service DeviceManagement {
 	
 	// List areas that meet criteria.
 	rpc ListAreas (GListAreasRequest) returns (GListAreasResponse) {}
+			
+	// Get tree representation of areas hierarchy.
+	rpc GetAreasTree (GGetAreasTreeRequest) returns (GGetAreasTreeResponse) {}
 	
 	// Delete an existing area.
 	rpc DeleteArea (GDeleteAreaRequest) returns (GDeleteAreaResponse) {}
@@ -433,6 +439,15 @@ message GListCustomersRequest {
 message GListCustomersResponse {
 	com.sitewhere.grpc.model.GCustomerSearchResults results = 1;
 }
+			
+// Request for getting tree representation of customers hierarchy.
+message GGetCustomersTreeRequest {
+}
+	
+// Response for getting tree representation of customers hierarchy.
+message GGetCustomersTreeResponse {
+	repeated com.sitewhere.grpc.model.GTreeNode customers = 1;
+}
 	
 // Request for deleting a customer.
 message GDeleteCustomerRequest {
@@ -572,6 +587,15 @@ message GListAreasRequest {
 // Response for listing areas that meet criteria.
 message GListAreasResponse {
 	com.sitewhere.grpc.model.GAreaSearchResults results = 1;
+}
+		
+// Request for getting tree representation of areas hierarchy.
+message GGetAreasTreeRequest {
+}
+	
+// Response for getting tree representation of areas hierarchy.
+message GGetAreasTreeResponse {
+	repeated com.sitewhere.grpc.model.GTreeNode areas = 1;
 }
 	
 // Request for deleting an area.

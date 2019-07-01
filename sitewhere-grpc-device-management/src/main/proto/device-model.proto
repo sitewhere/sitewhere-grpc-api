@@ -576,6 +576,17 @@ message GDeviceAlarm {
 	map<string, string> metadata = 13;
 }
 
+// #######################
+// ### TREE STRUCTURES ###
+// #######################
+
+message GTreeNode {
+	string token = 1;
+	string name = 2;
+	string icon = 3;
+	repeated GTreeNode children = 4;
+}
+
 // ######################
 // ### KAFKA PAYLOADS ###
 // ######################
