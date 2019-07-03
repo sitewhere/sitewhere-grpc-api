@@ -583,7 +583,7 @@ message GDeviceAlarm {
 message GTreeNode {
 	string token = 1;
 	string name = 2;
-	string icon = 3;
+	GOptionalString icon = 3;
 	repeated GTreeNode children = 4;
 }
 
