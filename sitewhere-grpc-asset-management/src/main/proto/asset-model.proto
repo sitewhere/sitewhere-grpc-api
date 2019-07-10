@@ -68,8 +68,8 @@ message GAsset {
 
 // Criteria for searching assets.
 message GAssetSearchCriteria {
-	GPaging paging = 2;
-	GUUID assetTypeId = 3;
+	GPaging paging = 1;
+	GOptionalString assetTypeToken = 2;
 }
 
 // Results for asset search.

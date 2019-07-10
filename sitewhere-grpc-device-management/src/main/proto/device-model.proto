@@ -301,13 +301,13 @@ message GDeviceAssignmentCreateRequest {
 
 // Criteria for searching device assignments.
 message GDeviceAssignmentSearchCriteria {
-	GDeviceAssignmentStatus status = 1;
-	GUUID deviceId = 2;
-	repeated GUUID deviceTypeIds = 4;
-	repeated GUUID customerIds = 5;
-	repeated GUUID areaIds = 6;
-	repeated GUUID assetIds = 7;
-	GPaging paging = 8;
+	repeated GDeviceAssignmentStatus status = 1;
+	repeated string deviceTokens = 2;
+	repeated string deviceTypeTokens = 3;
+	repeated string customerTokens = 4;
+	repeated string areaTokens = 5;
+	repeated string assetTokens = 6;
+	GPaging paging = 7;
 }
 
 // Results for device assignment search.
@@ -462,8 +462,8 @@ message GAreaCreateRequest {
 // Criteria for searching areas.
 message GAreaSearchCriteria {
 	GOptionalBoolean rootOnly = 1;
-	GUUID parentAreaId = 2;
-	GUUID areaTypeId = 3;
+	GOptionalString parentAreaToken = 2;
+	GOptionalString areaTypeToken = 3;
 	GPaging paging = 4;
 }
 
