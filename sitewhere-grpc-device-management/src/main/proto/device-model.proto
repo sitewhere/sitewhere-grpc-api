@@ -172,10 +172,11 @@ message GDeviceRegistrationRequest {
 	GOptionalString parentDeviceToken = 3;
 	GOptionalString customerToken = 4;
 	GOptionalString areaToken = 5;
-	repeated GDeviceElementMapping deviceElementMappings = 6;
-	GOptionalString comments = 7;
-	GOptionalString status = 8;
-	map<string, string> metadata = 9;
+	GOptionalString assetToken = 6;
+	repeated GDeviceElementMapping deviceElementMappings = 7;
+	GOptionalString comments = 8;
+	GOptionalString status = 9;
+	map<string, string> metadata = 10;
 }
 
 // Request for creating a device.
@@ -207,7 +208,7 @@ message GDeviceSearchResults {
 // Device.
 message GDevice {
 	GUUID deviceTypeId = 1;
-	GUUID deviceAssignmentId = 2;
+	repeated GUUID activeAssignmentId = 2;
 	GUUID parentDeviceId = 3;
 	repeated GDeviceElementMapping deviceElementMappings = 4;
 	GOptionalString comments = 5;

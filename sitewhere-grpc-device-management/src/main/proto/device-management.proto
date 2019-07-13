@@ -275,8 +275,8 @@ service DeviceManagement {
 	// Get a device assignment by unique token.
 	rpc GetDeviceAssignmentByToken (GGetDeviceAssignmentByTokenRequest) returns (GGetDeviceAssignmentByTokenResponse) {}
 	
-	// Get current assignment for a device.
-	rpc GetCurrentAssignmentForDevice (GGetCurrentAssignmentForDeviceRequest) returns (GGetCurrentAssignmentForDeviceResponse) {}
+	// Get active assignments for a device.
+	rpc GetActiveAssignmentsForDevice (GGetActiveAssignmentsForDeviceRequest) returns (GGetActiveAssignmentsForDeviceResponse) {}
 
 	// Delete an existing device assignment.
 	rpc DeleteDeviceAssignment (GDeleteDeviceAssignmentRequest) returns (GDeleteDeviceAssignmentResponse) {}
@@ -989,14 +989,14 @@ message GGetDeviceAssignmentByTokenResponse {
 	com.sitewhere.grpc.model.GDeviceAssignment assignment = 1;
 }
 	
-// Request for getting the current assignment for a device.
-message GGetCurrentAssignmentForDeviceRequest {
+// Request for getting the active assignments for a device.
+message GGetActiveAssignmentsForDeviceRequest {
 	com.sitewhere.grpc.model.GUUID id = 1;
 }
 		
-// Response for getting the current assignment for a device.
-message GGetCurrentAssignmentForDeviceResponse {
-	com.sitewhere.grpc.model.GDeviceAssignment assignment = 1;
+// Response for getting the active assignments for a device.
+message GGetActiveAssignmentsForDeviceResponse {
+	repeated com.sitewhere.grpc.model.GDeviceAssignment assignment = 1;
 }
 	
 // Request for deleting a device assignment.
