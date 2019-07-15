@@ -764,6 +764,7 @@ message GGetDeviceCommandResponse {
 
 // Request for getting a device command by token.
 message GGetDeviceCommandByTokenRequest {
+	com.sitewhere.grpc.model.GUUID deviceTypeId = 1;
 	string token = 2;
 }
 	
@@ -774,8 +775,8 @@ message GGetDeviceCommandByTokenResponse {
 	
 // Request for updating an existing device command.
 message GUpdateDeviceCommandRequest {
-	com.sitewhere.grpc.model.GUUID id = 2;
-	com.sitewhere.grpc.model.GDeviceCommandCreateRequest request = 3;
+	com.sitewhere.grpc.model.GUUID id = 1;
+	com.sitewhere.grpc.model.GDeviceCommandCreateRequest request = 2;
 }
 	
 // Response for updating an existing device command.
@@ -829,6 +830,7 @@ message GGetDeviceStatusResponse {
 
 // Request for getting a device status by token.
 message GGetDeviceStatusByTokenRequest {
+	com.sitewhere.grpc.model.GUUID deviceTypeId = 1;
 	string token = 2;
 }
 	

@@ -168,9 +168,9 @@ message GDeviceCommandInvocation {
 	string initiatorId = 2;
 	GDeviceCommandTarget target = 3;
 	GOptionalString targetId = 4;
-	string commandToken = 5;
+	GUUID deviceCommandId = 5;
 	map<string, string> parameterValues = 6;
-	GDeviceEvent event = 8;
+	GDeviceEvent event = 7;
 }
 
 // Command response event.
