@@ -132,7 +132,7 @@ message GDeviceStatusCreateRequest {
 
 // Criteria for searching device statuses.
 message GDeviceStatusSearchCriteria {
-	GUUID deviceTypeId = 1;
+	GOptionalString deviceTypeToken = 1;
 	GOptionalString code = 2;
 	GPaging paging = 3;
 }
@@ -504,7 +504,7 @@ message GZoneCreateRequest {
 
 // Criteria for searching zones.
 message GZoneSearchCriteria {
-	GUUID areaId = 1;
+	GOptionalString areaToken = 1;
 	GPaging paging = 2;
 }
 
