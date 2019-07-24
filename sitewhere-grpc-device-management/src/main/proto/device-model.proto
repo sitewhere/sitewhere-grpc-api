@@ -497,9 +497,10 @@ message GZoneCreateRequest {
 	GOptionalString name = 3;
 	repeated GLocation bounds = 4;
 	GOptionalString borderColor = 5;
-	GOptionalString fillColor = 6;
-	GOptionalDouble opacity = 7;
-	map<string, string> metadata = 8;
+	GOptionalDouble borderOpacity = 6;
+	GOptionalString fillColor = 7;
+	GOptionalDouble fillOpacity = 8;
+	map<string, string> metadata = 9;
 }
 
 // Criteria for searching zones.
@@ -520,9 +521,10 @@ message GZone {
 	string name = 2;
 	repeated GLocation bounds = 3;
 	string borderColor = 4;
-	string fillColor = 5;
-	double opacity = 6;
-	GEntityInformation entityInformation = 7;
+	double borderOpacity = 5;
+	string fillColor = 6;
+	double fillOpacity = 7;
+	GEntityInformation entityInformation = 8;
 }
 
 // #####################
