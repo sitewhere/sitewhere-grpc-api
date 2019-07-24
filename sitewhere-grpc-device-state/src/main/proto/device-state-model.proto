@@ -28,12 +28,11 @@ message GDeviceStateCreateRequest {
 // Criteria for searching device states.
 message GDeviceStateSearchCriteria {
 	uint64 lastInteractionDateBefore = 1;
-	repeated GUUID deviceTypeId = 2;
-	repeated GUUID customerId = 3;
-	repeated GUUID areaId = 4;
-	repeated GUUID assetId = 5;
-	int32 pageNumber = 6;
-	int32 pageSize = 7;
+	repeated string deviceTypeToken = 2;
+	repeated string customerToken = 3;
+	repeated string areaToken = 4;
+	repeated string assetToken = 5;
+	GPaging paging = 6;
 }
 
 // Results for device state search.
