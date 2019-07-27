@@ -1,4 +1,4 @@
-description = 'SiteWhere Tenant Management GRPC Model'
+description = 'SiteWhere Instance Management GRPC Model'
 
 apply plugin: 'com.google.protobuf'
 
@@ -63,8 +63,8 @@ publishing {
             artifact sourcesJar
             artifact javadocJar
 			pom {
-			    name = 'Tenant Management gRPC'
-			    description = 'SiteWhere Tenant Management gRPC API'
+			    name = 'Instance Management gRPC'
+			    description = 'SiteWhere Instance Management gRPC API'
 			    url = 'http://sitewhere.io'
 			    licenses {
 			        license {
