@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package com.sitewhere.grpc.model;
+
+option java_outer_classname = "InstanceModel";
+
+import "sitewhere-common.proto";
+
+// ########################
+// ### TENANT TEMPLATES ###
+// ########################
+
+message GTenantTemplate {
+	string id = 1;
+	string name = 2;
+}
+
+message GDatasetTemplate {
+	string id = 1;
+	string name = 2;
+}

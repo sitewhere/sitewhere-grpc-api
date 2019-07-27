@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package com.sitewhere.grpc.service;
+
+option java_multiple_files = true;
+option java_package = "com.sitewhere.grpc.service";
+option java_outer_classname = "InstanceServices";
+
+import "sitewhere-common.proto";
+import "instance-model.proto";
+
+// Instance management APIs.
+service InstanceManagement {
+
+	// ########################
+	// ### TENANT TEMPLATES ###
+	// ########################
+
+	// Get list of available tenant templates.
+	rpc GetTenantTemplates (GGetTenantTemplatesRequest) returns (GGetTenantTemplatesResponse) {}
+
+	// Get list of available dataset templates.
+	rpc GetDatasetTemplates (GGetDatasetTemplatesRequest) returns (GGetDatasetTemplatesResponse) {}
+}
+
+// ########################
+// ### TENANT TEMPLATES ###
+// ########################
+	
+// Request for getting a list of available tenant templates.
+message GGetTenantTemplatesRequest {
+}
+
+// Response for getting a list of available tenant templates.
+message GGetTenantTemplatesResponse {
+	repeated com.sitewhere.grpc.model.GTenantTemplate template = 1;
+}
+	
+// Request for getting a list of available dataset templates.
+message GGetDatasetTemplatesRequest {
+}
+
+// Response for getting a list of available dataset templates.
+message GGetDatasetTemplatesResponse {
+	repeated com.sitewhere.grpc.model.GDatasetTemplate template = 1;
+}

@@ -33,16 +33,6 @@ service TenantManagement {
 
 	// Delete an existing tenant.
 	rpc DeleteTenant (GDeleteTenantRequest) returns (GDeleteTenantResponse) {}
-
-	// ########################
-	// ### TENANT TEMPLATES ###
-	// ########################
-
-	// Get list of available tenant templates.
-	rpc GetTenantTemplates (GGetTenantTemplatesRequest) returns (GGetTenantTemplatesResponse) {}
-
-	// Get list of available dataset templates.
-	rpc GetDatasetTemplates (GGetDatasetTemplatesRequest) returns (GGetDatasetTemplatesResponse) {}
 }
 
 // ###############
@@ -108,26 +98,4 @@ message GDeleteTenantRequest {
 // Response for deleting a tenant.
 message GDeleteTenantResponse {
 	com.sitewhere.grpc.model.GTenant tenant = 1; 
-}
-
-// ########################
-// ### TENANT TEMPLATES ###
-// ########################
-	
-// Request for getting a list of available tenant templates.
-message GGetTenantTemplatesRequest {
-}
-
-// Response for getting a list of available tenant templates.
-message GGetTenantTemplatesResponse {
-	repeated com.sitewhere.grpc.model.GTenantTemplate template = 1;
-}
-	
-// Request for getting a list of available dataset templates.
-message GGetDatasetTemplatesRequest {
-}
-
-// Response for getting a list of available dataset templates.
-message GGetDatasetTemplatesResponse {
-	repeated com.sitewhere.grpc.model.GDatasetTemplate template = 1;
 }
