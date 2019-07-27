@@ -46,20 +46,6 @@ message GTenant {
 	GBrandingInformation branding = 7;
 }
 
-// ########################
-// ### TENANT TEMPLATES ###
-// ########################
-
-message GTenantTemplate {
-	string id = 1;
-	string name = 2;
-}
-
-message GDatasetTemplate {
-	string id = 1;
-	string name = 2;
-}
-
 // #####################
 // ### KAFKA UPDATES ###
 // #####################

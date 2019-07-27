@@ -5,6 +5,7 @@ include ':sitewhere-grpc-common'
 include ':sitewhere-grpc-device-management'
 include ':sitewhere-grpc-device-state'
 include ':sitewhere-grpc-event-management'
+include ':sitewhere-grpc-instance-management'
 include ':sitewhere-grpc-label-generation'
 include ':sitewhere-grpc-schedule-management'
 include ':sitewhere-grpc-stream-management'
@@ -17,6 +18,7 @@ project(':sitewhere-grpc-common').projectDir = "$rootDir/sitewhere-grpc-common" 
 project(':sitewhere-grpc-device-management').projectDir = "$rootDir/sitewhere-grpc-device-management" as File
 project(':sitewhere-grpc-device-state').projectDir = "$rootDir/sitewhere-grpc-device-state" as File
 project(':sitewhere-grpc-event-management').projectDir = "$rootDir/sitewhere-grpc-event-management" as File
+project(':sitewhere-grpc-instance-management').projectDir = "$rootDir/sitewhere-grpc-instance-management" as File
 project(':sitewhere-grpc-label-generation').projectDir = "$rootDir/sitewhere-grpc-label-generation" as File
 project(':sitewhere-grpc-schedule-management').projectDir = "$rootDir/sitewhere-grpc-schedule-management" as File
 project(':sitewhere-grpc-stream-management').projectDir = "$rootDir/sitewhere-grpc-stream-management" as File
