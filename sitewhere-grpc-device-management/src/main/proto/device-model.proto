@@ -14,6 +14,7 @@ import "sitewhere-common.proto";
 message GDeviceSlot {
 	string name = 1;
 	string path = 2;
+	GEntityInformation entityInformation = 3;
 }
 
 // Unit within a schema.
@@ -22,12 +23,14 @@ message GDeviceUnit {
 	string path = 2;
 	repeated GDeviceUnit units = 3;
 	repeated GDeviceSlot slots = 4;
+	GEntityInformation entityInformation = 5;
 }
 
 // Device element schema.
 message GDeviceElementSchema {
 	repeated GDeviceUnit units = 1;
 	repeated GDeviceSlot slots = 2;
+	GEntityInformation entityInformation = 3;
 }
 
 // Request for creating a device type.
@@ -37,7 +40,7 @@ message GDeviceTypeCreateRequest {
 	GOptionalString description = 3;
 	GOptionalString imageUrl = 4;
 	GDeviceContainerPolicy containerPolicy = 5;
-	GDeviceElementSchema deviceElementSchema = 6;
+	GOptionalString deviceElementSchemaToken = 6;
 	map<string, string> metadata = 7;
 	GBrandingInformation branding = 8;
 }
@@ -64,7 +67,7 @@ message GDeviceType {
 	string description = 2;
 	string imageUrl = 3;
 	GDeviceContainerPolicy containerPolicy = 4;
-	GDeviceElementSchema deviceElementSchema = 5;
+	GUUID deviceElementSchemaId = 5;
 	GEntityInformation entityInformation = 6;
 	GBrandingInformation branding = 7;
 }

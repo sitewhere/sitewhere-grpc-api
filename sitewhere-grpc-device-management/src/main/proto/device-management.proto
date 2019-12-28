@@ -30,6 +30,9 @@ service DeviceManagement {
 	
 	// List customer types that meet criteria.
 	rpc ListCustomerTypes (GListCustomerTypesRequest) returns (GListCustomerTypesResponse) {}
+		
+	// List customer types that may be contained in a given customer type.
+	rpc GetContainedCustomerTypes (GGetContainedCustomerTypesRequest) returns (GGetContainedCustomerTypesResponse) {}
 	
 	// Delete an existing customer type.
 	rpc DeleteCustomerType (GDeleteCustomerTypeRequest) returns (GDeleteCustomerTypeResponse) {}
@@ -80,6 +83,9 @@ service DeviceManagement {
 	
 	// List area types that meet criteria.
 	rpc ListAreaTypes (GListAreaTypesRequest) returns (GListAreaTypesResponse) {}
+		
+	// List area types that may be contained in a given area type.
+	rpc GetContainedAreaTypes (GGetContainedAreaTypesRequest) returns (GGetContainedAreaTypesResponse) {}
 	
 	// Delete an existing area type.
 	rpc DeleteAreaType (GDeleteAreaTypeRequest) returns (GDeleteAreaTypeResponse) {}
@@ -364,6 +370,16 @@ message GListCustomerTypesRequest {
 message GListCustomerTypesResponse {
 	com.sitewhere.grpc.model.GCustomerTypeSearchResults results = 1;
 }
+		
+// Request for getting customer types which may be contained in a customer type.
+message GGetContainedCustomerTypesRequest {
+	com.sitewhere.grpc.model.GUUID id = 1;
+}
+	
+// Response for getting customer types which may be contained in a customer type.
+message GGetContainedCustomerTypesResponse {
+	repeated com.sitewhere.grpc.model.GCustomerType customerTypes = 1;
+}
 	
 // Request for deleting a customer type.
 message GDeleteCustomerTypeRequest {
@@ -512,6 +528,16 @@ message GListAreaTypesRequest {
 // Response for listing area types that meet criteria.
 message GListAreaTypesResponse {
 	com.sitewhere.grpc.model.GAreaTypeSearchResults results = 1;
+}
+		
+// Request for getting area types which may be contained in an area type.
+message GGetContainedAreaTypesRequest {
+	com.sitewhere.grpc.model.GUUID id = 1;
+}
+	
+// Response for getting area types which may be contained in an area type.
+message GGetContainedAreaTypesResponse {
+	repeated com.sitewhere.grpc.model.GAreaType areaTypes = 1;
 }
 	
 // Request for deleting an area type.
