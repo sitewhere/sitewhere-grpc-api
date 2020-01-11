@@ -113,16 +113,6 @@ message GDeviceAssignmentEventCreateRequest {
 	GAnyDeviceEventCreateRequest request = 2;
 }
 
-// Device event type.
-enum GDeviceEventType {
-	EVENT_TYPE_MEASUREMENT = 0;
-	EVENT_TYPE_LOCATION = 1;
-	EVENT_TYPE_ALERT = 2;
-	EVENT_TYPE_COMMAND_INVOCATION = 3;
-	EVENT_TYPE_COMMAND_RESPONSE = 4;
-	EVENT_TYPE_STATE_CHANGE = 5;
-}
-
 // Common device event information.
 message GDeviceEvent {
 	GUUID id = 1;

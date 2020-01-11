@@ -150,6 +150,16 @@ enum GDeviceAssignmentStatus {
 	ASSN_STATUS_RELEASED = 3;
 }
 
+// Device event type.
+enum GDeviceEventType {
+	EVENT_TYPE_MEASUREMENT = 0;
+	EVENT_TYPE_LOCATION = 1;
+	EVENT_TYPE_ALERT = 2;
+	EVENT_TYPE_COMMAND_INVOCATION = 3;
+	EVENT_TYPE_COMMAND_RESPONSE = 4;
+	EVENT_TYPE_STATE_CHANGE = 5;
+}
+
 // Device command initiator.
 enum GDeviceCommandInitiator {
 	CMD_INITIATOR_REST = 0;
