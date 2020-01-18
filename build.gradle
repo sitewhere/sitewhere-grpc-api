@@ -8,16 +8,16 @@ buildscript {
 	}
 }
 
-ext['grpc.version'] = '1.21.0'
+ext['grpc.version'] = '1.26.0'
 
 apply plugin: 'distribution'
     
 allprojects {
     group = 'com.sitewhere'
-	version = '3.0.0.alpha2'
+	version = '3.0.0.alpha3'
 	
     repositories {
-        maven { url "http://repo.maven.apache.org/maven2" }
+        maven { url "https://repo.maven.apache.org/maven2" }
     }
 }
 
