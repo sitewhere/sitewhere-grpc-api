@@ -7,6 +7,7 @@ option java_package = "com.sitewhere.grpc.service";
 option java_outer_classname = "ScheduleServices";
 
 import "schedule-model.proto";
+import "sitewhere-common.proto";
 
 // Schedule management APIs.
 service ScheduleManagement {
@@ -20,6 +21,9 @@ service ScheduleManagement {
 
 	// Update an existing schedule.
 	rpc UpdateSchedule (GUpdateScheduleRequest) returns (GUpdateScheduleResponse) {}
+
+	// Get schedule by id.
+	rpc GetSchedule (GGetScheduleRequest) returns (GGetScheduleResponse) {}
 
 	// Get schedule by token.
 	rpc GetScheduleByToken (GGetScheduleByTokenRequest) returns (GGetScheduleByTokenResponse) {}
@@ -39,6 +43,9 @@ service ScheduleManagement {
 
 	// Update an existing scheduled job.
 	rpc UpdateScheduledJob (GUpdateScheduledJobRequest) returns (GUpdateScheduledJobResponse) {}
+
+	// Get scheduled job by id.
+	rpc GetScheduledJob (GGetScheduledJobRequest) returns (GGetScheduledJobResponse) {}
 
 	// Get scheduled job by token.
 	rpc GetScheduledJobByToken (GGetScheduledJobByTokenRequest) returns (GGetScheduledJobByTokenResponse) {}
@@ -66,12 +73,22 @@ message GCreateScheduleResponse {
 	
 // Request for updating a schedule.
 message GUpdateScheduleRequest {
-	string token = 1;
+	com.sitewhere.grpc.model.GUUID id = 1;
 	com.sitewhere.grpc.model.GScheduleCreateRequest request = 2;
 }
 
 // Response for updating a schedule.
 message GUpdateScheduleResponse {
+	com.sitewhere.grpc.model.GSchedule schedule = 1;
+}
+
+// Request for getting a schedule by id.
+message GGetScheduleRequest {
+	com.sitewhere.grpc.model.GUUID id = 1;
+}
+	
+// Response for getting a schedule by id.
+message GGetScheduleResponse {
 	com.sitewhere.grpc.model.GSchedule schedule = 1;
 }
 
@@ -97,7 +114,7 @@ message GListSchedulesResponse {
 	
 // Request for deleting a schedule.
 message GDeleteScheduleRequest {
-	string token = 1;
+	com.sitewhere.grpc.model.GUUID id = 1;
 }
 	
 // Response for deleting a schedule.
@@ -121,12 +138,22 @@ message GCreateScheduledJobResponse {
 	
 // Request for updating a scheduled job.
 message GUpdateScheduledJobRequest {
-	string token = 1;
+	com.sitewhere.grpc.model.GUUID id = 1;
 	com.sitewhere.grpc.model.GScheduledJobCreateRequest request = 2;
 }
 
 // Response for updating a scheduled job.
 message GUpdateScheduledJobResponse {
+	com.sitewhere.grpc.model.GScheduledJob scheduledJob = 1;
+}
+
+// Request for getting a scheduled job by id.
+message GGetScheduledJobRequest {
+	com.sitewhere.grpc.model.GUUID id = 1;
+}
+	
+// Response for getting a scheduled job by id.
+message GGetScheduledJobResponse {
 	com.sitewhere.grpc.model.GScheduledJob scheduledJob = 1;
 }
 
@@ -152,7 +179,7 @@ message GListScheduledJobsResponse {
 	
 // Request for deleting a scheduled job.
 message GDeleteScheduledJobRequest {
-	string token = 1;
+	com.sitewhere.grpc.model.GUUID id = 1;
 }
 	
 // Response for deleting a scheduled job.

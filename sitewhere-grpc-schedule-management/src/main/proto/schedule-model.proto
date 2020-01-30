@@ -68,7 +68,7 @@ enum GScheduledJobState {
 // Scheduled job create request.
 message GScheduledJobCreateRequest {
 	GOptionalString token = 1;
-	string scheduleToken = 2;
+	GOptionalString scheduleToken = 2;
 	GScheduledJobType jobType = 3;
 	map<string, string> jobConfiguration = 4;
 	GScheduledJobState jobState = 5;
@@ -88,7 +88,7 @@ message GScheduledJobSearchResults {
 
 // Scheduled job.
 message GScheduledJob {
-	string scheduleToken = 1;
+	GUUID scheduleId = 1;
 	GScheduledJobType jobType = 2;
 	map<string, string> jobConfiguration = 3;
 	GScheduledJobState jobState = 4;
