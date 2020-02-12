@@ -14,7 +14,7 @@ apply plugin: 'distribution'
     
 allprojects {
     group = 'com.sitewhere'
-	version = '3.0.0.alpha4'
+	version = '3.0.0.alpha5'
 	
     repositories {
         maven { url "https://repo.maven.apache.org/maven2" }
@@ -34,4 +34,18 @@ subprojects {
     apply plugin: 'java'
     sourceCompatibility = 1.8
     targetCompatibility = 1.8
+    
+    // Common dependencies used for all projects.
+    dependencies {
+    	// Use Quarkus for library versions.
+    	compile platform('io.quarkus:quarkus-bom:1.2.0.Final')
+    	
+    	// SiteWhere Java model.
+    	compile group: 'com.sitewhere', name: 'sitewhere-java-model', version: '3.0.0.alpha5'
+    	
+    	// Common utility functions.
+    	compile group: 'org.apache.commons', name: 'commons-lang3'
+    	
+		testCompile group: 'junit', name: 'junit', version: '4.12'
+    }
 }

@@ -4,6 +4,7 @@ apply plugin: 'com.google.protobuf'
 
 dependencies {
     compile project(':sitewhere-grpc-common')
+    compile project(':sitewhere-grpc-event-management')
 }
 
 protobuf {
