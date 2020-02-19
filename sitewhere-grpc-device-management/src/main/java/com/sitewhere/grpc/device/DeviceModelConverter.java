@@ -1357,9 +1357,11 @@ public class DeviceModelConverter {
     public static DeviceGroupElementCreateRequest asApiDeviceGroupElementCreateRequest(
 	    GDeviceGroupElementCreateRequest grpc) throws SiteWhereException {
 	DeviceGroupElementCreateRequest api = new DeviceGroupElementCreateRequest();
+	api.setToken(grpc.hasToken() ? grpc.getToken().getValue() : null);
 	api.setDeviceToken(grpc.hasDeviceToken() ? grpc.getDeviceToken().getValue() : null);
 	api.setNestedGroupToken(grpc.hasNestedGroupToken() ? grpc.getNestedGroupToken().getValue() : null);
 	api.setRoles(grpc.getRolesList());
+	api.setMetadata(grpc.getMetadataMap());
 	return api;
     }
 
@@ -1389,13 +1391,21 @@ public class DeviceModelConverter {
     public static GDeviceGroupElementCreateRequest asGrpcDeviceGroupElementCreateRequest(
 	    IDeviceGroupElementCreateRequest api) throws SiteWhereException {
 	GDeviceGroupElementCreateRequest.Builder grpc = GDeviceGroupElementCreateRequest.newBuilder();
+	if (api.getToken() != null) {
+	    grpc.setToken(GOptionalString.newBuilder().setValue(api.getToken()));
+	}
 	if (api.getDeviceToken() != null) {
 	    grpc.setDeviceToken(GOptionalString.newBuilder().setValue(api.getDeviceToken()));
 	}
 	if (api.getNestedGroupToken() != null) {
 	    grpc.setNestedGroupToken(GOptionalString.newBuilder().setValue(api.getNestedGroupToken()));
 	}
-	grpc.addAllRoles(api.getRoles());
+	if (api.getRoles() != null) {
+	    grpc.addAllRoles(api.getRoles());
+	}
+	if (api.getMetadata() != null) {
+	    grpc.putAllMetadata(api.getMetadata());
+	}
 	return grpc.build();
     }
 
@@ -1454,11 +1464,11 @@ public class DeviceModelConverter {
      */
     public static DeviceGroupElement asApiDeviceGroupElement(GDeviceGroupElement grpc) throws SiteWhereException {
 	DeviceGroupElement api = new DeviceGroupElement();
-	api.setId(CommonModelConverter.asApiUuid(grpc.getId()));
 	api.setGroupId(CommonModelConverter.asApiUuid(grpc.getGroupId()));
 	api.setDeviceId(grpc.hasDeviceId() ? CommonModelConverter.asApiUuid(grpc.getDeviceId()) : null);
 	api.setNestedGroupId(grpc.hasNestedGroupId() ? CommonModelConverter.asApiUuid(grpc.getNestedGroupId()) : null);
 	api.setRoles(grpc.getRolesList());
+	CommonModelConverter.setEntityInformation(api, grpc.getEntityInformation());
 	return api;
     }
 
@@ -1487,7 +1497,6 @@ public class DeviceModelConverter {
      */
     public static GDeviceGroupElement asGrpcDeviceGroupElement(IDeviceGroupElement api) throws SiteWhereException {
 	GDeviceGroupElement.Builder grpc = GDeviceGroupElement.newBuilder();
-	grpc.setId(CommonModelConverter.asGrpcUuid(api.getId()));
 	grpc.setGroupId(CommonModelConverter.asGrpcUuid(api.getGroupId()));
 	if (api.getDeviceId() != null) {
 	    grpc.setDeviceId(CommonModelConverter.asGrpcUuid(api.getDeviceId()));
@@ -1496,6 +1505,7 @@ public class DeviceModelConverter {
 	    grpc.setNestedGroupId(CommonModelConverter.asGrpcUuid(api.getNestedGroupId()));
 	}
 	grpc.addAllRoles(api.getRoles());
+	grpc.setEntityInformation(CommonModelConverter.asGrpcEntityInformation(api));
 	return grpc.build();
     }
 

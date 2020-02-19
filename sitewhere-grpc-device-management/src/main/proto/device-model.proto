@@ -225,9 +225,11 @@ message GDevice {
 
 // Request data for creating a device group element.
 message GDeviceGroupElementCreateRequest {
-	GOptionalString deviceToken = 1;
-	GOptionalString nestedGroupToken = 2;
-	repeated string roles = 3;
+	GOptionalString token = 1;
+	GOptionalString deviceToken = 2;
+	GOptionalString nestedGroupToken = 3;
+	repeated string roles = 4;
+	map<string, string> metadata = 5;
 }
 
 // Request data for creating a device group.
@@ -271,11 +273,11 @@ message GDeviceGroupSearchResults {
 
 // Device group element.
 message GDeviceGroupElement {
-	GUUID id = 1;
 	GUUID groupId = 2;
 	GUUID deviceId = 3;
 	GUUID nestedGroupId = 4;
 	repeated string roles = 5;
+	GEntityInformation entityInformation = 6;
 }
 
 // Device group.

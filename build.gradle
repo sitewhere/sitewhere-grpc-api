@@ -14,10 +14,11 @@ apply plugin: 'distribution'
     
 allprojects {
     group = 'com.sitewhere'
-	version = '3.0.0.alpha5'
+	version = '3.0.0.alpha6'
 	
     repositories {
         maven { url "https://repo.maven.apache.org/maven2" }
+		mavenLocal()
     }
 }
 
@@ -41,7 +42,7 @@ subprojects {
     	compile platform('io.quarkus:quarkus-bom:1.2.0.Final')
     	
     	// SiteWhere Java model.
-    	compile group: 'com.sitewhere', name: 'sitewhere-java-model', version: '3.0.0.alpha5'
+    	compile group: 'com.sitewhere', name: 'sitewhere-java-model', version: '3.0.0.alpha6'
     	
     	// Common utility functions.
     	compile group: 'org.apache.commons', name: 'commons-lang3'
