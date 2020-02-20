@@ -899,10 +899,10 @@ public class DeviceModelConverter {
 	api.setCode(grpc.getCode());
 	api.setName(grpc.getName());
 	api.setDeviceTypeId(CommonModelConverter.asApiUuid(grpc.getDeviceTypeId()));
-	api.setBackgroundColor(grpc.getBackgroundColor());
-	api.setForegroundColor(grpc.getForegroundColor());
-	api.setBorderColor(grpc.getBorderColor());
-	api.setIcon(grpc.getIcon());
+	api.setBackgroundColor(grpc.hasBackgroundColor() ? grpc.getBackgroundColor().getValue() : null);
+	api.setForegroundColor(grpc.hasForegroundColor() ? grpc.getForegroundColor().getValue() : null);
+	api.setBorderColor(grpc.hasBorderColor() ? grpc.getBorderColor().getValue() : null);
+	api.setIcon(grpc.hasIcon() ? grpc.getIcon().getValue() : null);
 	CommonModelConverter.setEntityInformation(api, grpc.getEntityInformation());
 	return api;
     }
@@ -920,10 +920,18 @@ public class DeviceModelConverter {
 	grpc.setCode(api.getCode());
 	grpc.setName(api.getName());
 	grpc.setDeviceTypeId(CommonModelConverter.asGrpcUuid(api.getDeviceTypeId()));
-	grpc.setBackgroundColor(api.getBackgroundColor());
-	grpc.setForegroundColor(api.getForegroundColor());
-	grpc.setBorderColor(api.getBorderColor());
-	grpc.setIcon(api.getIcon());
+	if (api.getBackgroundColor() != null) {
+	    grpc.setBackgroundColor(GOptionalString.newBuilder().setValue(api.getBackgroundColor()).build());
+	}
+	if (api.getForegroundColor() != null) {
+	    grpc.setForegroundColor(GOptionalString.newBuilder().setValue(api.getForegroundColor()).build());
+	}
+	if (api.getBorderColor() != null) {
+	    grpc.setBorderColor(GOptionalString.newBuilder().setValue(api.getBorderColor()).build());
+	}
+	if (api.getIcon() != null) {
+	    grpc.setIcon(GOptionalString.newBuilder().setValue(api.getIcon()).build());
+	}
 	grpc.setEntityInformation(CommonModelConverter.asGrpcEntityInformation(api));
 	return grpc.build();
     }

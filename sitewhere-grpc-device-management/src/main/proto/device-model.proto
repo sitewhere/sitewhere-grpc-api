@@ -151,10 +151,10 @@ message GDeviceStatus {
 	GUUID deviceTypeId = 1;
 	string code = 2;
 	string name = 3;
-	string backgroundColor = 4;
-	string foregroundColor = 5;
-	string borderColor = 6;
-	string icon = 7;
+	GOptionalString backgroundColor = 4;
+	GOptionalString foregroundColor = 5;
+	GOptionalString borderColor = 6;
+	GOptionalString icon = 7;
 	GEntityInformation entityInformation = 8;
 }
 
