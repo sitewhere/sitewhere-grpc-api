@@ -19,3 +19,19 @@ message GDatasetTemplate {
 	string id = 1;
 	string name = 2;
 }
+
+// ############################
+// ### KUBERNETES ARTIFACTS ###
+// ############################
+
+message GMicroserviceSummary {
+	string id = 1;
+	string name = 2;
+	string description = 3;
+	string icon = 4;
+	bool multitenant = 5;
+	string dockerImageTag = 6;
+	bool debugEnabled = 7;
+	uint32 debugJdwpPort = 8;
+	uint32 debugJmxPort = 9;
+}
