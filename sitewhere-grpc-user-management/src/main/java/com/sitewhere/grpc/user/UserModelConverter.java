@@ -23,19 +23,20 @@ import com.sitewhere.grpc.model.UserModel.GUser;
 import com.sitewhere.grpc.model.UserModel.GUserCreateRequest;
 import com.sitewhere.grpc.model.UserModel.GUserSearchCriteria;
 import com.sitewhere.grpc.model.UserModel.GUserSearchResults;
+import com.sitewhere.grpc.model.UserModel.GRole;
+import com.sitewhere.grpc.model.UserModel.GRoleCreateRequest;
+import com.sitewhere.grpc.model.UserModel.GRoleSearchResults;
 import com.sitewhere.rest.model.search.SearchResults;
 import com.sitewhere.rest.model.user.GrantedAuthority;
+import com.sitewhere.rest.model.user.Role;
 import com.sitewhere.rest.model.user.User;
 import com.sitewhere.rest.model.user.request.GrantedAuthorityCreateRequest;
 import com.sitewhere.rest.model.user.request.UserCreateRequest;
 import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.search.ISearchResults;
-import com.sitewhere.spi.user.AccountStatus;
-import com.sitewhere.spi.user.IGrantedAuthority;
-import com.sitewhere.spi.user.IGrantedAuthoritySearchCriteria;
-import com.sitewhere.spi.user.IUser;
-import com.sitewhere.spi.user.IUserSearchCriteria;
+import com.sitewhere.spi.user.*;
 import com.sitewhere.spi.user.request.IGrantedAuthorityCreateRequest;
+import com.sitewhere.spi.user.request.IRoleCreateRequest;
 import com.sitewhere.spi.user.request.IUserCreateRequest;
 
 /**
@@ -45,7 +46,7 @@ public class UserModelConverter {
 
     /**
      * Convert account status from GRPC to API.
-     * 
+     *
      * @param grpc
      * @return
      * @throws SiteWhereException
@@ -66,7 +67,7 @@ public class UserModelConverter {
 
     /**
      * Convert account status from API to GRPC.
-     * 
+     *
      * @param api
      * @return
      * @throws SiteWhereException
@@ -85,7 +86,7 @@ public class UserModelConverter {
 
     /**
      * Convert user create request from GRPC to API.
-     * 
+     *
      * @param grpc
      * @return
      * @throws SiteWhereException
@@ -108,7 +109,7 @@ public class UserModelConverter {
 
     /**
      * Convert user create request from API to GRPC.
-     * 
+     *
      * @param api
      * @return
      * @throws SiteWhereException
@@ -141,7 +142,7 @@ public class UserModelConverter {
 
     /**
      * Convert user from API to GRPC.
-     * 
+     *
      * @param grpc
      * @return
      * @throws SiteWhereException
@@ -161,7 +162,7 @@ public class UserModelConverter {
 
     /**
      * Convert user from API to GRPC.
-     * 
+     *
      * @param api
      * @return
      * @throws SiteWhereException
@@ -183,7 +184,7 @@ public class UserModelConverter {
 
     /**
      * Convert user search criteria from API to GRPC.
-     * 
+     *
      * @param api
      * @return
      * @throws SiteWhereException
@@ -195,7 +196,7 @@ public class UserModelConverter {
 
     /**
      * Convert user search results from GRPC to API.
-     * 
+     *
      * @param grpc
      * @return
      * @throws SiteWhereException
@@ -207,7 +208,7 @@ public class UserModelConverter {
 
     /**
      * Convert user search results from API to GRPC.
-     * 
+     *
      * @param api
      * @return
      * @throws SiteWhereException
@@ -221,7 +222,7 @@ public class UserModelConverter {
 
     /**
      * Convert a list of users from GRPC to API.
-     * 
+     *
      * @param grpcs
      * @return
      * @throws SiteWhereException
@@ -236,7 +237,7 @@ public class UserModelConverter {
 
     /**
      * Convert a list of users from API to GRPC.
-     * 
+     *
      * @param apis
      * @return
      * @throws SiteWhereException
@@ -251,7 +252,7 @@ public class UserModelConverter {
 
     /**
      * Convert granted authority create request from GRPC to API.
-     * 
+     *
      * @param grpc
      * @return
      * @throws SiteWhereException
@@ -268,7 +269,7 @@ public class UserModelConverter {
 
     /**
      * Convert granted authority create request from API to GRPC.
-     * 
+     *
      * @param api
      * @return
      * @throws SiteWhereException
@@ -289,7 +290,7 @@ public class UserModelConverter {
 
     /**
      * Convert granted authority search criteria from API to GRPC.
-     * 
+     *
      * @param api
      * @return
      * @throws SiteWhereException
@@ -302,7 +303,7 @@ public class UserModelConverter {
 
     /**
      * Convert granted authority search results from GRPC to API.
-     * 
+     *
      * @param grpc
      * @return
      * @throws SiteWhereException
@@ -315,7 +316,7 @@ public class UserModelConverter {
 
     /**
      * Convert granted authority search results from API to GRPC.
-     * 
+     *
      * @param api
      * @return
      * @throws SiteWhereException
@@ -330,7 +331,7 @@ public class UserModelConverter {
 
     /**
      * Convert granted authority from GRPC to API.
-     * 
+     *
      * @param grpc
      * @return
      * @throws SiteWhereException
@@ -346,7 +347,7 @@ public class UserModelConverter {
 
     /**
      * Convert a list of granted authorities from GRPC to API.
-     * 
+     *
      * @param grpcs
      * @return
      * @throws SiteWhereException
@@ -362,7 +363,7 @@ public class UserModelConverter {
 
     /**
      * Convert a granted authority from API to GRPC.
-     * 
+     *
      * @param api
      * @return
      * @throws SiteWhereException
@@ -382,7 +383,7 @@ public class UserModelConverter {
 
     /**
      * Convert a list of granted authorities from API to GRPC.
-     * 
+     *
      * @param apis
      * @return
      * @throws SiteWhereException
@@ -394,5 +395,68 @@ public class UserModelConverter {
 	    grpcs.add(UserModelConverter.asGrpcGrantedAuthority(api));
 	}
 	return grpcs;
+    }
+
+
+
+
+
+
+    //*******************************inicio********************************
+    /**
+     * Convert a list of roles from GRPC to API.
+     *
+     * @param grpcs
+     * @return
+     * @throws SiteWhereException
+     */
+    public static List<IRole> asApiRole(List<GRole> grpcs)
+		    throws SiteWhereException {
+	List<IRole> api = new ArrayList<IRole>();
+	for (GRole gauth : grpcs) {
+	    api.add(UserModelConverter.asApiRole(gauth));
+	}
+	return api;
+    }
+
+    /**
+     * Convert role from GRPC to API.
+     *
+     * @param grpc
+     * @return
+     * @throws SiteWhereException
+     */
+    public static IRole asApiRole(GRole grpc) throws SiteWhereException {
+	Role api = new Role();
+	api.setRole(grpc.getRole());
+	api.setDescription(grpc.getDescription());
+	return api;
+    }
+
+    /**
+     * Convert role create request from API to GRPC.
+     *
+     * @param api
+     * @return
+     * @throws SiteWhereException
+     */
+    public static GRoleCreateRequest asGrpcRoleCreateRequest(IRoleCreateRequest api)
+		    throws SiteWhereException {
+	GRoleCreateRequest.Builder builder = GRoleCreateRequest.newBuilder();
+	builder.setRole(api.getRole());
+	builder.setDescription(api.getDescription());
+	return builder.build();
+    }
+
+    /**
+     * Convert role search results from GRPC to API.
+     *
+     * @param grpc
+     * @return
+     * @throws SiteWhereException
+     */
+    public static ISearchResults<IRole> asApiRoleSearchResults(GRoleSearchResults grpc) throws SiteWhereException {
+	List<IRole> roles = UserModelConverter.asApiRole(grpc.getRolesList());
+	return new SearchResults<IRole>(roles, grpc.getCount());
     }
 }

@@ -10,18 +10,18 @@ protobuf {
 
 	// Configure the protoc executable
 	protoc {
-	
+
 		// Download from repositories.
 		artifact = "com.google.protobuf:protoc:3.3.0"
 	}
-  
+
   	// Add GRPC plugin.
 	plugins {
 		grpc {
 			artifact = "io.grpc:protoc-gen-grpc-java:${rootProject.ext['grpc.version']}"
 		}
 	}
-  
+
 	// Choose which tasks are executed.
 	generateProtoTasks {
 		all().each { task ->
@@ -30,7 +30,7 @@ protobuf {
       		}
       	}
 	}
-	
+
 	generatedFilesBaseDir = "$projectDir/src/generated"
 }
 
@@ -54,7 +54,7 @@ task javadocJar(type: Jar) {
     classifier = 'javadoc'
 }
 
-// Publish jar.	
+// Publish jar.
 apply plugin: 'maven-publish'
 publishing {
 	publications {
@@ -83,21 +83,22 @@ publishing {
                     connection = 'https://github.com/sitewhere/sitewhere-grpc-api.git'
                     url = 'https://github.com/sitewhere/sitewhere-grpc-api'
                 }
-			}	
+			}
 		}
 	}
     repositories {
-        maven {
+		mavenLocal()
+        /*maven {
             url project.nexusUrl
             credentials {
                 username project.nexusUsername
                 password project.nexusPassword
             }
-        }
+        }*/
     }
 }
 
-apply plugin: 'signing'
+/*apply plugin: 'signing'
 signing {
     sign publishing.publications.mavenJava
-}
+}*/

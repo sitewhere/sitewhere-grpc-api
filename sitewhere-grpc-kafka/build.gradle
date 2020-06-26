@@ -18,7 +18,7 @@ task javadocJar(type: Jar) {
     classifier = 'javadoc'
 }
 
-// Publish jar.	
+// Publish jar.
 apply plugin: 'maven-publish'
 publishing {
 	publications {
@@ -47,21 +47,22 @@ publishing {
                     connection = 'https://github.com/sitewhere/sitewhere-grpc-api.git'
                     url = 'https://github.com/sitewhere/sitewhere-grpc-api'
                 }
-			}	
+			}
 		}
 	}
     repositories {
-        maven {
+       /* maven {
             url project.nexusUrl
             credentials {
                 username project.nexusUsername
                 password project.nexusPassword
             }
-        }
+        }*/
+        mavenLocal()
     }
 }
 
-apply plugin: 'signing'
+/*apply plugin: 'signing'
 signing {
     sign publishing.publications.mavenJava
-}
+}*/

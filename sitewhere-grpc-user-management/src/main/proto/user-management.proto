@@ -63,12 +63,40 @@ service UserManagement {
 
 	// Remove granted authorities for a user.
 	rpc RemoveGrantedAuthoritiesForUser (GRemoveGrantedAuthoritiesRequest) returns (GRemoveGrantedAuthoritiesResponse) {}
+
+	// ###########################
+    // ### Roles ###
+    // ###########################
+
+    // Create a role.
+    rpc CreateRole (GCreateRoleRequest) returns (GCreateRoleResponse) {}
+
+    // Get role by name.
+    rpc GetRoleByName (GGetRoleByNameRequest) returns (GGetRoleByNameResponse) {}
+
+    // Update an existing role.
+    rpc UpdateRole (GUpdateRoleRequest) returns (GUpdateRoleResponse) {}
+
+    // List roles that match criteria.
+    rpc ListRoles (GListRolesRequest) returns (GListRolesResponse) {}
+
+    // Delete an existing role.
+    rpc DeleteRole (GDeleteRoleRequest) returns (GDeleteRoleResponse) {}
+
+    // Get granted roles for a user.
+    rpc GetRolesForUser (GGetRolesRequest) returns (GGetRolesResponse) {}
+
+    // Add granted authorities for a user.
+    rpc AddRolesForUser (GAddRolesRequest) returns (GAddRolesResponse) {}
+
+    // Remove granted authorities for a user.
+    rpc RemoveRolesForUser (GRemoveRolesRequest) returns (GRemoveRolesResponse) {}
 }
 
 // #############
 // ### USERS ###
 // #############
-	
+
 // Request for creating a user.
 message GCreateUserRequest {
 	com.sitewhere.grpc.model.GUserCreateRequest request = 1;
@@ -79,7 +107,7 @@ message GCreateUserRequest {
 message GCreateUserResponse {
 	com.sitewhere.grpc.model.GUser user = 1;
 }
-	
+
 // Request for importing a user.
 message GImportUserRequest {
 	com.sitewhere.grpc.model.GUser user = 1;
@@ -156,7 +184,7 @@ message GCreateGrantedAuthorityRequest {
 
 // Response for creating a granted authority.
 message GCreateGrantedAuthorityResponse {
-	com.sitewhere.grpc.model.GGrantedAuthority authority = 1; 
+	com.sitewhere.grpc.model.GGrantedAuthority authority = 1;
 }
 
 // Request for getting a granted authority by name.
@@ -166,7 +194,7 @@ message GGetGrantedAuthorityByNameRequest {
 
 // Response for getting a granted authority by name.
 message GGetGrantedAuthorityByNameResponse {
-	com.sitewhere.grpc.model.GGrantedAuthority authority = 1; 
+	com.sitewhere.grpc.model.GGrantedAuthority authority = 1;
 }
 
 // Request for updating a granted authority.
@@ -177,7 +205,7 @@ message GUpdateGrantedAuthorityRequest {
 
 // Response for updating a granted authority.
 message GUpdateGrantedAuthorityResponse {
-	com.sitewhere.grpc.model.GGrantedAuthority authority = 1; 
+	com.sitewhere.grpc.model.GGrantedAuthority authority = 1;
 }
 
 // Request for listing authorities by critieria.
@@ -202,32 +230,119 @@ message GDeleteGrantedAuthorityRequest {
 
 // Response for deleting a granted authority.
 message GDeleteGrantedAuthorityResponse {
-	com.sitewhere.grpc.model.GGrantedAuthority authority = 1; 
+	com.sitewhere.grpc.model.GGrantedAuthority authority = 1;
 }
 
 // Response for getting granted authorities for a user.
 message GGetGrantedAuthoritiesResponse {
-	repeated com.sitewhere.grpc.model.GGrantedAuthority authorities = 1; 
+	repeated com.sitewhere.grpc.model.GGrantedAuthority authorities = 1;
 }
 
 // Request for adding granted authorities for a user.
 message GAddGrantedAuthoritiesRequest {
 	string username = 1;
-	repeated string authorities = 2; 
+	repeated string authorities = 2;
 }
 
 // Response for adding granted authorities for a user.
 message GAddGrantedAuthoritiesResponse {
-	repeated com.sitewhere.grpc.model.GGrantedAuthority authorities = 1; 
+	repeated com.sitewhere.grpc.model.GGrantedAuthority authorities = 1;
 }
 
 // Request for removing granted authorities for a user.
 message GRemoveGrantedAuthoritiesRequest {
 	string username = 1;
-	repeated string authorities = 2; 
+	repeated string authorities = 2;
 }
 
 // Response for removing granted authorities for a user.
 message GRemoveGrantedAuthoritiesResponse {
-	repeated com.sitewhere.grpc.model.GGrantedAuthority authorities = 1; 
+	repeated com.sitewhere.grpc.model.GGrantedAuthority authorities = 1;
+}
+
+// ###########################
+// ### Roles ###
+// ###########################
+
+// Request for creating a Role.
+message GCreateRoleRequest {
+	com.sitewhere.grpc.model.GRoleCreateRequest request = 1;
+}
+
+// Response for creating a granted authority.
+message GCreateRoleResponse {
+	com.sitewhere.grpc.model.GRole role = 1;
+}
+
+// Request for getting a role by name.
+message GGetRoleByNameRequest {
+	string name = 1;
+}
+
+// Response for getting a granted authority by name.
+message GGetRoleByNameResponse {
+	com.sitewhere.grpc.model.GRole role = 1;
+}
+
+// Request for updating a role.
+message GUpdateRoleRequest {
+	string name = 1;
+	com.sitewhere.grpc.model.GRoleCreateRequest request = 2;
+}
+
+// Response for updating a granted authority.
+message GUpdateRoleResponse {
+	com.sitewhere.grpc.model.GRole authority = 1;
+}
+
+// Request for listing authorities by critieria.
+message GListRolesRequest {
+	com.sitewhere.grpc.model.GRoleSearchCriteria criteria = 1;
+}
+
+// Response for listing roles by critieria.
+message GListRolesResponse {
+	com.sitewhere.grpc.model.GRoleSearchResults results = 1;
+}
+
+// Request for deleting a role.
+message GDeleteRoleRequest {
+	string name = 1;
+}
+
+// Response for deleting a role.
+message GDeleteRoleResponse {
+	com.sitewhere.grpc.model.GRole role = 1;
+}
+
+// Request for roles for a user.
+message GGetRolesRequest {
+	string username = 1;
+}
+
+// Response for getting roles for a user.
+message GGetRolesResponse {
+	repeated com.sitewhere.grpc.model.GRole roles = 1;
+}
+
+// Request for adding roles for a user.
+message GAddRolesRequest {
+	string username = 1;
+	repeated string roles = 2;
+}
+
+// Response for adding roles for a user.
+message GAddRolesResponse {
+	repeated com.sitewhere.grpc.model.GRole roles = 1;
+}
+
+// Request for removing roles for a user.
+message GRemoveRolesRequest {
+	string username = 1;
+	repeated string roles = 2;
+}
+
+// Response for removing roles for a user.
+message GRemoveRolesResponse {
+	repeated com.sitewhere.grpc.model.GRole roles = 1;
 }
