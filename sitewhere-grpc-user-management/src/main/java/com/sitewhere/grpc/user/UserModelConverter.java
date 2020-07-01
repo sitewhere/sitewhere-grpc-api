@@ -98,10 +98,10 @@ public class UserModelConverter {
 	api.setFirstName(grpc.hasFirstName() ? grpc.getFirstName().getValue() : null);
 	api.setLastName(grpc.hasLastName() ? grpc.getLastName().getValue() : null);
 	api.setStatus(UserModelConverter.asApiAccountStatus(grpc.getStatus()));
-	if (grpc.getAuthoritiesList().size() > 0) {
-	    List<String> authorities = new ArrayList<>();
-	    authorities.addAll(grpc.getAuthoritiesList());
-	    api.setAuthorities(authorities);
+	if (grpc.getRolesList().size() > 0) {
+	    List<String> roles = new ArrayList<>();
+	    roles.addAll(grpc.getRolesList());
+	    api.setRoles(roles);
 	}
 	api.setMetadata(grpc.getMetadataMap());
 	return api;
@@ -131,9 +131,11 @@ public class UserModelConverter {
 	if (api.getStatus() != null) {
 	    builder.setStatus(UserModelConverter.asGrpcAccountStatus(api.getStatus()));
 	}
-	if (api.getAuthorities() != null) {
-	    builder.addAllAuthorities(api.getAuthorities());
+
+	if (api.getRoles() != null) {
+		builder.addAllRoles(api.getRoles());
 	}
+
 	if (api.getMetadata() != null) {
 	    builder.putAllMetadata(api.getMetadata());
 	}
@@ -155,7 +157,7 @@ public class UserModelConverter {
 	api.setLastName(grpc.getLastName());
 	api.setStatus(UserModelConverter.asApiAccountStatus(grpc.getStatus()));
 	api.setLastLogin(CommonModelConverter.asApiDate(grpc.getLastLogin()));
-	api.getAuthorities().addAll(grpc.getAuthoritiesList());
+	api.getRoles().addAll(UserModelConverter.asApiRoles(grpc.getRolesList()));
 	CommonModelConverter.setEntityInformation(api, grpc.getEntityInformation());
 	return api;
     }
@@ -175,8 +177,9 @@ public class UserModelConverter {
 	builder.setLastName(api.getLastName());
 	builder.setStatus(UserModelConverter.asGrpcAccountStatus(api.getStatus()));
 	builder.setLastLogin(CommonModelConverter.asGrpcDate(api.getLastLogin()));
-	if (api.getAuthorities() != null) {
-	    builder.addAllAuthorities(api.getAuthorities());
+
+	if (api.getRoles() != null) {
+	    builder.addAllRoles(UserModelConverter.asGrpcRoles(api.getRoles()));
 	}
 	builder.setEntityInformation(CommonModelConverter.asGrpcEntityInformation(api));
 	return builder.build();
@@ -397,6 +400,37 @@ public class UserModelConverter {
 	return grpcs;
     }
 
+	/**
+	 * Convert a list of granted authorities from API to GRPC.
+	 *
+	 * @param apis
+	 * @return
+	 * @throws SiteWhereException
+	 */
+	public static List<GRole> asGrpcRoles(List<IRole> apis)
+			throws SiteWhereException {
+		List<GRole> grpcs = new ArrayList<GRole>();
+		for (IRole api : apis) {
+			grpcs.add(UserModelConverter.asGrpcRole(api));
+		}
+		return grpcs;
+	}
+
+	/**
+	 * Convert a granted authority from API to GRPC.
+	 *
+	 * @param api
+	 * @return
+	 * @throws SiteWhereException
+	 */
+	public static GRole asGrpcRole(IRole api) throws SiteWhereException {
+		GRole.Builder builder = UserModel.GRole.newBuilder();
+		builder.setRole(api.getRole());
+		builder.setDescription(api.getDescription());
+		builder.addAllAuthorities(UserModelConverter.asGrpcGrantedAuthorities(api.getAuthorities()));
+		return builder.build();
+	}
+
     //*******************************inicio********************************
     /**
      * Convert a list of roles from GRPC to API.
@@ -405,11 +439,11 @@ public class UserModelConverter {
      * @return
      * @throws SiteWhereException
      */
-    public static List<IRole> asApiRole(List<GRole> grpcs)
+    public static List<IRole> asApiRoles(List<GRole> grpcs)
 		    throws SiteWhereException {
 	List<IRole> api = new ArrayList<IRole>();
-	for (GRole gauth : grpcs) {
-	    api.add(UserModelConverter.asApiRole(gauth));
+	for (GRole gRole : grpcs) {
+	    api.add(UserModelConverter.asApiRole(gRole));
 	}
 	return api;
     }
@@ -425,7 +459,8 @@ public class UserModelConverter {
 	Role api = new Role();
 	api.setRole(grpc.getRole());
 	api.setDescription(grpc.getDescription());
-	api.setAuthorities(grpc.getAuthorities());
+	List<IGrantedAuthority> auths = UserModelConverter.asApiGrantedAuthorities(grpc.getAuthoritiesList());
+	api.setAuthorities(auths);
 	return api;
     }
 
@@ -441,7 +476,11 @@ public class UserModelConverter {
 	GRoleCreateRequest.Builder builder = GRoleCreateRequest.newBuilder();
 	builder.setRole(api.getRole());
 	builder.setDescription(api.getDescription());
-	builder.setAuthorities(api.getAuthorities());
+
+	if (api.getAuthorities() != null) {
+		builder.addAllAuthorities(api.getAuthorities());
+	}
+
 	return builder.build();
     }
 
@@ -453,7 +492,7 @@ public class UserModelConverter {
      * @throws SiteWhereException
      */
     public static ISearchResults<IRole> asApiRoleSearchResults(GRoleSearchResults grpc) throws SiteWhereException {
-	List<IRole> roles = UserModelConverter.asApiRole(grpc.getRolesList());
+	List<IRole> roles = UserModelConverter.asApiRoles(grpc.getRolesList());
 	return new SearchResults<IRole>(roles, grpc.getCount());
     }
 }

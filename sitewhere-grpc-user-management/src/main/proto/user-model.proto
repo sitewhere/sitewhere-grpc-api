@@ -17,7 +17,7 @@ message GUserCreateRequest {
 	GOptionalString firstName = 3;
 	GOptionalString lastName = 4;
 	GUserAccountStatus status = 5;
-	repeated string authorities = 6;
+	repeated string roles = 6;
 	map<string, string> metadata = 7;
 }
 
@@ -40,7 +40,7 @@ message GUser {
 	string lastName = 4;
 	uint64 lastLogin = 5;
 	GUserAccountStatus status = 6;
-	repeated string authorities = 7;
+	repeated GRole roles = 7;
 	GEntityInformation entityInformation = 8;
 }
 
@@ -102,5 +102,5 @@ message GRoleSearchResults {
 message GRole {
 	string role = 1;
 	string description = 2;
-	repeated string authorities = 3;
+	repeated GGrantedAuthority authorities = 3;
 }
