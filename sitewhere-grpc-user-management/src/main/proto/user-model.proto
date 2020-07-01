@@ -84,6 +84,7 @@ message GGrantedAuthority {
 message GRoleCreateRequest {
 	string role = 1;
 	string description = 2;
+	repeated string authorities = 3;
 }
 
 // Criteria for granted authority search.
@@ -101,4 +102,5 @@ message GRoleSearchResults {
 message GRole {
 	string role = 1;
 	string description = 2;
+	repeated string authorities = 3;
 }

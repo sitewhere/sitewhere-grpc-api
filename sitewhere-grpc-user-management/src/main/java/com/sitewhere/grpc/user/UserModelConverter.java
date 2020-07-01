@@ -397,11 +397,6 @@ public class UserModelConverter {
 	return grpcs;
     }
 
-
-
-
-
-
     //*******************************inicio********************************
     /**
      * Convert a list of roles from GRPC to API.
@@ -430,6 +425,7 @@ public class UserModelConverter {
 	Role api = new Role();
 	api.setRole(grpc.getRole());
 	api.setDescription(grpc.getDescription());
+	api.setAuthorities(grpc.getAuthorities());
 	return api;
     }
 
@@ -445,6 +441,7 @@ public class UserModelConverter {
 	GRoleCreateRequest.Builder builder = GRoleCreateRequest.newBuilder();
 	builder.setRole(api.getRole());
 	builder.setDescription(api.getDescription());
+	builder.setAuthorities(api.getAuthorities());
 	return builder.build();
     }
 
