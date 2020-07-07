@@ -400,38 +400,36 @@ public class UserModelConverter {
 	return grpcs;
     }
 
-	/**
-	 * Convert a list of granted authorities from API to GRPC.
-	 *
-	 * @param apis
-	 * @return
-	 * @throws SiteWhereException
-	 */
-	public static List<GRole> asGrpcRoles(List<IRole> apis)
-			throws SiteWhereException {
-		List<GRole> grpcs = new ArrayList<GRole>();
-		for (IRole api : apis) {
-			grpcs.add(UserModelConverter.asGrpcRole(api));
-		}
-		return grpcs;
+    /**
+     * Convert a list of granted authorities from API to GRPC.
+     *
+     * @param apis
+     * @return
+     * @throws SiteWhereException
+     */
+    public static List<GRole> asGrpcRoles(List<IRole> apis) throws SiteWhereException {
+	List<GRole> grpcs = new ArrayList<GRole>();
+	for (IRole api : apis) {
+	    grpcs.add(UserModelConverter.asGrpcRole(api));
 	}
+	return grpcs;
+    }
 
-	/**
-	 * Convert a granted authority from API to GRPC.
-	 *
-	 * @param api
-	 * @return
-	 * @throws SiteWhereException
-	 */
-	public static GRole asGrpcRole(IRole api) throws SiteWhereException {
-		GRole.Builder builder = UserModel.GRole.newBuilder();
-		builder.setRole(api.getRole());
-		builder.setDescription(api.getDescription());
-		builder.addAllAuthorities(UserModelConverter.asGrpcGrantedAuthorities(api.getAuthorities()));
-		return builder.build();
-	}
+    /**
+     * Convert a granted authority from API to GRPC.
+     *
+     * @param api
+     * @return
+     * @throws SiteWhereException
+     */
+    public static GRole asGrpcRole(IRole api) throws SiteWhereException {
+	GRole.Builder builder = UserModel.GRole.newBuilder();
+	builder.setRole(api.getRole());
+	builder.setDescription(api.getDescription());
+	builder.addAllAuthorities(UserModelConverter.asGrpcGrantedAuthorities(api.getAuthorities()));
+	return builder.build();
+    }
 
-    //*******************************inicio********************************
     /**
      * Convert a list of roles from GRPC to API.
      *
