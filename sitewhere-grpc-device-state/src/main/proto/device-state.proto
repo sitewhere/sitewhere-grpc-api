@@ -21,6 +21,12 @@ service DeviceState {
 		
 	// Get device state by id.
 	rpc GetDeviceState (GGetDeviceStateRequest) returns (GGetDeviceStateResponse) {}
+			
+	// Get device state by device assignment.
+	rpc GetDeviceStateByAssignment (GGetDeviceStateByAssignmentRequest) returns (GGetDeviceStateByAssignmentResponse) {}
+				
+	// Get device states by device.
+	rpc GetDeviceStatesByDevice (GGetDeviceStatesByDeviceRequest) returns (GGetDeviceStatesByDeviceResponse) {}
 	
 	// Search for device states that meet criteria.
 	rpc SearchDeviceStates (GSearchDeviceStatesRequest) returns (GSearchDeviceStatesResponse) {}
@@ -28,27 +34,11 @@ service DeviceState {
 	// Update existing device state.
 	rpc UpdateDeviceState (GUpdateDeviceStateRequest) returns (GUpdateDeviceStateResponse) {}
 	
+	// Merge events into device state.
+	rpc MergeDeviceState (GMergeDeviceStateRequest) returns (GMergeDeviceStateResponse) {}
+	
 	// Delete existing device state.
 	rpc DeleteDeviceState (GDeleteDeviceStateRequest) returns (GDeleteDeviceStateResponse) {}
-
-	// ##########################
-	// ### RECENT STATE EVENT ###
-	// ##########################
-	
-	// Create new recent state event.
-	rpc CreateRecentStateEvent (GCreateRecentStateEventRequest) returns (GCreateRecentStateEventResponse) {}
-		
-	// Get recent state event by id.
-	rpc GetRecentStateEvent (GGetRecentStateEventRequest) returns (GGetRecentStateEventResponse) {}
-	
-	// Search for recent state events that meet criteria.
-	rpc SearchRecentStateEvents (GSearchRecentStateEventsRequest) returns (GSearchRecentStateEventsResponse) {}
-	
-	// Update existing recent state event.
-	rpc UpdateRecentStateEvent (GUpdateRecentStateEventRequest) returns (GUpdateRecentStateEventResponse) {}
-	
-	// Delete existing recent state event.
-	rpc DeleteRecentStateEvent (GDeleteRecentStateEventRequest) returns (GDeleteRecentStateEventResponse) {}
 }
 
 // ####################
@@ -74,6 +64,26 @@ message GGetDeviceStateRequest {
 message GGetDeviceStateResponse {
 	com.sitewhere.grpc.model.GDeviceState deviceState = 1;
 }
+		
+// Request for getting device state by device assignment.
+message GGetDeviceStateByAssignmentRequest {
+	com.sitewhere.grpc.model.GUUID deviceAssignmentId = 1;
+}
+	
+// Response for getting device state by device assignment.
+message GGetDeviceStateByAssignmentResponse {
+	com.sitewhere.grpc.model.GDeviceState deviceState = 1;
+}
+		
+// Request for getting device states by device.
+message GGetDeviceStatesByDeviceRequest {
+	com.sitewhere.grpc.model.GUUID deviceId = 1;
+}
+	
+// Response for getting device states by device.
+message GGetDeviceStatesByDeviceResponse {
+	repeated com.sitewhere.grpc.model.GDeviceState deviceStates = 1;
+}
 	
 // Request for searching for device states that meet criteria.
 message GSearchDeviceStatesRequest {
@@ -96,6 +106,17 @@ message GUpdateDeviceStateResponse {
 	com.sitewhere.grpc.model.GDeviceState deviceState = 1;
 }
 	
+// Request for merging events into device state.
+message GMergeDeviceStateRequest {
+	com.sitewhere.grpc.model.GUUID id = 1;
+	com.sitewhere.grpc.model.GDeviceStateEventMergeRequest request = 2;
+}
+	
+// Response for merging events into device state.
+message GMergeDeviceStateResponse {
+	com.sitewhere.grpc.model.GDeviceState deviceState = 1;
+}
+	
 // Request for deleting device state.
 message GDeleteDeviceStateRequest {
 	com.sitewhere.grpc.model.GUUID id = 1;
@@ -104,59 +125,4 @@ message GDeleteDeviceStateRequest {
 // Response for deleting device state.
 message GDeleteDeviceStateResponse {
 	com.sitewhere.grpc.model.GDeviceState deviceState = 1;
-}
-
-// ##########################
-// ### RECENT STATE EVENT ###
-// ##########################
-
-// Request for creating recent state event.
-message GCreateRecentStateEventRequest {
-	com.sitewhere.grpc.model.GRecentStateEventCreateRequest request = 1;
-}
-
-// Response from creating recent state event.
-message GCreateRecentStateEventResponse {
-	com.sitewhere.grpc.model.GRecentStateEvent recentStateEvent = 1;
-}
-	
-// Request for getting recent state event by id.
-message GGetRecentStateEventRequest {
-	com.sitewhere.grpc.model.GUUID id = 1;
-}
-	
-// Response for getting recent state event by id.
-message GGetRecentStateEventResponse {
-	com.sitewhere.grpc.model.GRecentStateEvent recentStateEvent = 1;
-}
-	
-// Request for searching for recent state events that meet criteria.
-message GSearchRecentStateEventsRequest {
-	com.sitewhere.grpc.model.GRecentStateEventSearchCriteria criteria = 1;
-}
-	
-// Response for searching for recent state events that meet criteria.
-message GSearchRecentStateEventsResponse {
-	com.sitewhere.grpc.model.GRecentStateEventSearchResults results = 1;
-}
-	
-// Request for updating recent state event.
-message GUpdateRecentStateEventRequest {
-	com.sitewhere.grpc.model.GUUID id = 1;
-	com.sitewhere.grpc.model.GRecentStateEventCreateRequest request = 2;
-}
-	
-// Response for updating recent state event.
-message GUpdateRecentStateEventResponse {
-	com.sitewhere.grpc.model.GRecentStateEvent recentStateEvent = 1;
-}
-	
-// Request for deleting recent state event.
-message GDeleteRecentStateEventRequest {
-	com.sitewhere.grpc.model.GUUID id = 1;
-}
-	
-// Response for deleting recent state event.
-message GDeleteRecentStateEventResponse {
-	com.sitewhere.grpc.model.GRecentStateEvent recentStateEvent = 1;
 }

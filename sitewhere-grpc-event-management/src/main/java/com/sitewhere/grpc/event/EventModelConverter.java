@@ -383,7 +383,7 @@ public class EventModelConverter {
      * @throws SiteWhereException
      */
     public static List<GDeviceMeasurementCreateRequest> asGrpcDeviceMeasurementsCreateRequests(
-	    List<IDeviceMeasurementCreateRequest> apis) throws SiteWhereException {
+	    List<? extends IDeviceMeasurementCreateRequest> apis) throws SiteWhereException {
 	List<GDeviceMeasurementCreateRequest> grpcs = new ArrayList<GDeviceMeasurementCreateRequest>();
 	for (IDeviceMeasurementCreateRequest api : apis) {
 	    grpcs.add(EventModelConverter.asGrpcDeviceMeasurementCreateRequest(api));
@@ -460,7 +460,7 @@ public class EventModelConverter {
      * @return
      * @throws SiteWhereException
      */
-    public static List<GDeviceMeasurement> asGrpcDeviceMeasurements(List<IDeviceMeasurement> apis)
+    public static List<GDeviceMeasurement> asGrpcDeviceMeasurements(List<? extends IDeviceMeasurement> apis)
 	    throws SiteWhereException {
 	List<GDeviceMeasurement> grpcs = new ArrayList<GDeviceMeasurement>();
 	for (IDeviceMeasurement api : apis) {
@@ -608,8 +608,8 @@ public class EventModelConverter {
      * @return
      * @throws SiteWhereException
      */
-    public static List<GDeviceAlertCreateRequest> asGrpcDeviceAlertCreateRequests(List<IDeviceAlertCreateRequest> apis)
-	    throws SiteWhereException {
+    public static List<GDeviceAlertCreateRequest> asGrpcDeviceAlertCreateRequests(
+	    List<? extends IDeviceAlertCreateRequest> apis) throws SiteWhereException {
 	List<GDeviceAlertCreateRequest> grpcs = new ArrayList<GDeviceAlertCreateRequest>();
 	for (IDeviceAlertCreateRequest api : apis) {
 	    grpcs.add(EventModelConverter.asGrpcDeviceAlertCreateRequest(api));
@@ -689,7 +689,7 @@ public class EventModelConverter {
      * @return
      * @throws SiteWhereException
      */
-    public static List<GDeviceAlert> asGrpcDeviceAlerts(List<IDeviceAlert> apis) throws SiteWhereException {
+    public static List<GDeviceAlert> asGrpcDeviceAlerts(List<? extends IDeviceAlert> apis) throws SiteWhereException {
 	List<GDeviceAlert> grpcs = new ArrayList<GDeviceAlert>();
 	for (IDeviceAlert api : apis) {
 	    grpcs.add(EventModelConverter.asGrpcDeviceAlert(api));
@@ -761,7 +761,7 @@ public class EventModelConverter {
      * @throws SiteWhereException
      */
     public static List<GDeviceLocationCreateRequest> asGrpcDeviceLocationCreateRequests(
-	    List<IDeviceLocationCreateRequest> apis) throws SiteWhereException {
+	    List<? extends IDeviceLocationCreateRequest> apis) throws SiteWhereException {
 	List<GDeviceLocationCreateRequest> grpcs = new ArrayList<GDeviceLocationCreateRequest>();
 	for (IDeviceLocationCreateRequest api : apis) {
 	    grpcs.add(EventModelConverter.asGrpcDeviceLocationCreateRequest(api));
@@ -845,7 +845,8 @@ public class EventModelConverter {
      * @return
      * @throws SiteWhereException
      */
-    public static List<GDeviceLocation> asGrpcDeviceLocations(List<IDeviceLocation> apis) throws SiteWhereException {
+    public static List<GDeviceLocation> asGrpcDeviceLocations(List<? extends IDeviceLocation> apis)
+	    throws SiteWhereException {
 	List<GDeviceLocation> grpcs = new ArrayList<GDeviceLocation>();
 	for (IDeviceLocation api : apis) {
 	    grpcs.add(EventModelConverter.asGrpcDeviceLocation(api));
