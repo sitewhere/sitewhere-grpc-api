@@ -10,18 +10,18 @@ protobuf {
 
 	// Configure the protoc executable
 	protoc {
-	
+
 		// Download from repositories.
 		artifact = "com.google.protobuf:protoc:3.3.0"
 	}
-  
+
   	// Add GRPC plugin.
 	plugins {
 		grpc {
 			artifact = "io.grpc:protoc-gen-grpc-java:${rootProject.ext['grpc.version']}"
 		}
 	}
-  
+
 	// Choose which tasks are executed.
 	generateProtoTasks {
 		all().each { task ->
@@ -30,7 +30,7 @@ protobuf {
       		}
       	}
 	}
-	
+
 	generatedFilesBaseDir = "$projectDir/src/generated"
 }
 
@@ -54,7 +54,7 @@ task javadocJar(type: Jar) {
     classifier = 'javadoc'
 }
 
-// Publish jar.	
+// Publish jar.
 apply plugin: 'maven-publish'
 publishing {
 	publications {
