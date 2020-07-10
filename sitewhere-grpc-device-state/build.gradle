@@ -88,18 +88,17 @@ publishing {
 		}
 	}
     repositories {
-		mavenLocal()
-        /*maven {
+        maven {
             url project.nexusUrl
             credentials {
                 username project.nexusUsername
                 password project.nexusPassword
             }
-        }*/
+        }
     }
 }
 
-/*apply plugin: 'signing'
+apply plugin: 'signing'
 signing {
     sign publishing.publications.mavenJava
-}*/
+}
