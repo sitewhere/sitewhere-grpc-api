@@ -5,6 +5,7 @@ package com.sitewhere.grpc.model;
 option java_outer_classname = "DeviceStateModel";
 
 import "sitewhere-common.proto";
+import "device-event-model.proto";
 
 // ####################
 // ### DEVICE STATE ###
@@ -20,6 +21,13 @@ message GDeviceStateCreateRequest {
 	GUUID assetId = 6;
 	uint64 lastInteractionDate = 7;
 	uint64 presenceMissingDate = 8;
+}
+
+// Request for merging events into device state.
+message GDeviceStateEventMergeRequest {
+	repeated GDeviceLocation locations = 1;
+	repeated GDeviceMeasurement measurements = 2;
+	repeated GDeviceAlert alerts = 3;
 }
 
 // Criteria for searching device states.
@@ -49,43 +57,4 @@ message GDeviceState {
 	GUUID assetId = 7;
 	uint64 lastInteractionDate = 8;
 	uint64 presenceMissingDate = 9;
-}
-
-// ##########################
-// ### RECENT STATE EVENT ###
-// ##########################
-
-// Request for creating recent state event.
-message GRecentStateEventCreateRequest {
-	GUUID deviceStateId = 1;
-	GDeviceEventType eventType = 2;
-	GOptionalString classifier = 3;
-	GOptionalString value = 4;
-	uint64 eventDate = 5;
-	GUUID eventId = 6;
-}
-
-// Criteria for searching recent state events.
-message GRecentStateEventSearchCriteria {
-	GUUID deviceStateId = 1;
-	GDeviceEventType eventType = 2;
-	GOptionalString classifier = 3;
-	GPaging paging = 4;
-}
-
-// Results for searching recent state events.
-message GRecentStateEventSearchResults {
-	uint64 count = 1;
-	repeated GRecentStateEvent recentStateEvents = 2;
-}
-
-// Recent state event.
-message GRecentStateEvent {
-	GUUID id = 1;
-	GUUID deviceStateId = 2;
-	GDeviceEventType eventType = 3;
-	string classifier = 4;
-	string value = 5;
-	uint64 eventDate = 6;
-	GUUID eventId = 7;
 }

@@ -7,6 +7,7 @@
  */
 package com.sitewhere.grpc.event;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +17,6 @@ import com.sitewhere.grpc.model.CommonModel.GDeviceCommandStatus;
 import com.sitewhere.grpc.model.CommonModel.GDeviceCommandTarget;
 import com.sitewhere.grpc.model.CommonModel.GDeviceEventType;
 import com.sitewhere.grpc.model.CommonModel.GOptionalBoolean;
-import com.sitewhere.grpc.model.CommonModel.GOptionalDouble;
 import com.sitewhere.grpc.model.CommonModel.GOptionalString;
 import com.sitewhere.grpc.model.DeviceEventModel.GAlertLevel;
 import com.sitewhere.grpc.model.DeviceEventModel.GAlertSource;
@@ -338,7 +338,7 @@ public class EventModelConverter {
 	    GDeviceMeasurementCreateRequest grpc) throws SiteWhereException {
 	DeviceMeasurementCreateRequest api = new DeviceMeasurementCreateRequest();
 	api.setName(grpc.getName());
-	api.setValue(grpc.getValue());
+	api.setValue(new BigDecimal(grpc.getValue()));
 	EventModelConverter.copyApiDeviceEventCreateRequest(grpc.getEvent(), api);
 	return api;
     }
@@ -354,7 +354,7 @@ public class EventModelConverter {
 	    IDeviceMeasurementCreateRequest api) throws SiteWhereException {
 	GDeviceMeasurementCreateRequest.Builder grpc = GDeviceMeasurementCreateRequest.newBuilder();
 	grpc.setName(api.getName());
-	grpc.setValue(api.getValue());
+	grpc.setValue(api.getValue().toString());
 	grpc.setEvent(EventModelConverter.createGrpcDeviceEventCreateRequest(api));
 	return grpc.build();
     }
@@ -383,7 +383,7 @@ public class EventModelConverter {
      * @throws SiteWhereException
      */
     public static List<GDeviceMeasurementCreateRequest> asGrpcDeviceMeasurementsCreateRequests(
-	    List<IDeviceMeasurementCreateRequest> apis) throws SiteWhereException {
+	    List<? extends IDeviceMeasurementCreateRequest> apis) throws SiteWhereException {
 	List<GDeviceMeasurementCreateRequest> grpcs = new ArrayList<GDeviceMeasurementCreateRequest>();
 	for (IDeviceMeasurementCreateRequest api : apis) {
 	    grpcs.add(EventModelConverter.asGrpcDeviceMeasurementCreateRequest(api));
@@ -417,7 +417,7 @@ public class EventModelConverter {
     public static DeviceMeasurement asApiDeviceMeasurement(GDeviceMeasurement grpc) throws SiteWhereException {
 	DeviceMeasurement api = new DeviceMeasurement();
 	api.setName(grpc.getName());
-	api.setValue(grpc.getValue());
+	api.setValue(new BigDecimal(grpc.getValue()));
 	EventModelConverter.copyApiDeviceEvent(grpc.getEvent(), api);
 	return api;
     }
@@ -432,7 +432,7 @@ public class EventModelConverter {
     public static GDeviceMeasurement asGrpcDeviceMeasurement(IDeviceMeasurement api) throws SiteWhereException {
 	GDeviceMeasurement.Builder grpc = GDeviceMeasurement.newBuilder();
 	grpc.setName(api.getName());
-	grpc.setValue(api.getValue());
+	grpc.setValue(api.getValue().toString());
 	grpc.setEvent(EventModelConverter.createGrpcDeviceEvent(api));
 	return grpc.build();
     }
@@ -460,7 +460,7 @@ public class EventModelConverter {
      * @return
      * @throws SiteWhereException
      */
-    public static List<GDeviceMeasurement> asGrpcDeviceMeasurements(List<IDeviceMeasurement> apis)
+    public static List<GDeviceMeasurement> asGrpcDeviceMeasurements(List<? extends IDeviceMeasurement> apis)
 	    throws SiteWhereException {
 	List<GDeviceMeasurement> grpcs = new ArrayList<GDeviceMeasurement>();
 	for (IDeviceMeasurement api : apis) {
@@ -608,8 +608,8 @@ public class EventModelConverter {
      * @return
      * @throws SiteWhereException
      */
-    public static List<GDeviceAlertCreateRequest> asGrpcDeviceAlertCreateRequests(List<IDeviceAlertCreateRequest> apis)
-	    throws SiteWhereException {
+    public static List<GDeviceAlertCreateRequest> asGrpcDeviceAlertCreateRequests(
+	    List<? extends IDeviceAlertCreateRequest> apis) throws SiteWhereException {
 	List<GDeviceAlertCreateRequest> grpcs = new ArrayList<GDeviceAlertCreateRequest>();
 	for (IDeviceAlertCreateRequest api : apis) {
 	    grpcs.add(EventModelConverter.asGrpcDeviceAlertCreateRequest(api));
@@ -689,7 +689,7 @@ public class EventModelConverter {
      * @return
      * @throws SiteWhereException
      */
-    public static List<GDeviceAlert> asGrpcDeviceAlerts(List<IDeviceAlert> apis) throws SiteWhereException {
+    public static List<GDeviceAlert> asGrpcDeviceAlerts(List<? extends IDeviceAlert> apis) throws SiteWhereException {
 	List<GDeviceAlert> grpcs = new ArrayList<GDeviceAlert>();
 	for (IDeviceAlert api : apis) {
 	    grpcs.add(EventModelConverter.asGrpcDeviceAlert(api));
@@ -707,9 +707,9 @@ public class EventModelConverter {
     public static DeviceLocationCreateRequest asApiDeviceLocationCreateRequest(GDeviceLocationCreateRequest grpc)
 	    throws SiteWhereException {
 	DeviceLocationCreateRequest api = new DeviceLocationCreateRequest();
-	api.setLatitude(grpc.hasLatitude() ? grpc.getLatitude().getValue() : null);
-	api.setLongitude(grpc.hasLongitude() ? grpc.getLongitude().getValue() : null);
-	api.setElevation(grpc.hasElevation() ? grpc.getElevation().getValue() : null);
+	api.setLatitude(new BigDecimal(grpc.getLatitude()));
+	api.setLongitude(new BigDecimal(grpc.getLongitude()));
+	api.setElevation(grpc.hasElevation() ? new BigDecimal(grpc.getElevation().getValue()) : null);
 	EventModelConverter.copyApiDeviceEventCreateRequest(grpc.getEvent(), api);
 	return api;
     }
@@ -725,13 +725,13 @@ public class EventModelConverter {
 	    throws SiteWhereException {
 	GDeviceLocationCreateRequest.Builder grpc = GDeviceLocationCreateRequest.newBuilder();
 	if (api.getLatitude() != null) {
-	    grpc.setLatitude(GOptionalDouble.newBuilder().setValue(api.getLatitude()).build());
+	    grpc.setLatitude(api.getLatitude().toString());
 	}
 	if (api.getLongitude() != null) {
-	    grpc.setLongitude(GOptionalDouble.newBuilder().setValue(api.getLongitude()).build());
+	    grpc.setLongitude(api.getLongitude().toString());
 	}
 	if (api.getElevation() != null) {
-	    grpc.setElevation(GOptionalDouble.newBuilder().setValue(api.getElevation()).build());
+	    grpc.setElevation(GOptionalString.newBuilder().setValue(api.getElevation().toString()).build());
 	}
 	grpc.setEvent(EventModelConverter.createGrpcDeviceEventCreateRequest(api));
 	return grpc.build();
@@ -761,7 +761,7 @@ public class EventModelConverter {
      * @throws SiteWhereException
      */
     public static List<GDeviceLocationCreateRequest> asGrpcDeviceLocationCreateRequests(
-	    List<IDeviceLocationCreateRequest> apis) throws SiteWhereException {
+	    List<? extends IDeviceLocationCreateRequest> apis) throws SiteWhereException {
 	List<GDeviceLocationCreateRequest> grpcs = new ArrayList<GDeviceLocationCreateRequest>();
 	for (IDeviceLocationCreateRequest api : apis) {
 	    grpcs.add(EventModelConverter.asGrpcDeviceLocationCreateRequest(api));
@@ -794,9 +794,9 @@ public class EventModelConverter {
      */
     public static DeviceLocation asApiDeviceLocation(GDeviceLocation grpc) throws SiteWhereException {
 	DeviceLocation api = new DeviceLocation();
-	api.setLatitude(grpc.hasLatitude() ? grpc.getLatitude().getValue() : null);
-	api.setLongitude(grpc.hasLongitude() ? grpc.getLongitude().getValue() : null);
-	api.setElevation(grpc.hasElevation() ? grpc.getElevation().getValue() : null);
+	api.setLatitude(new BigDecimal(grpc.getLatitude()));
+	api.setLongitude(new BigDecimal(grpc.getLongitude()));
+	api.setElevation(grpc.hasElevation() ? new BigDecimal(grpc.getElevation().getValue()) : null);
 	EventModelConverter.copyApiDeviceEvent(grpc.getEvent(), api);
 	return api;
     }
@@ -811,13 +811,13 @@ public class EventModelConverter {
     public static GDeviceLocation asGrpcDeviceLocation(IDeviceLocation api) throws SiteWhereException {
 	GDeviceLocation.Builder grpc = GDeviceLocation.newBuilder();
 	if (api.getLatitude() != null) {
-	    grpc.setLatitude(GOptionalDouble.newBuilder().setValue(api.getLatitude()).build());
+	    grpc.setLatitude(api.getLatitude().toString());
 	}
 	if (api.getLongitude() != null) {
-	    grpc.setLongitude(GOptionalDouble.newBuilder().setValue(api.getLongitude()).build());
+	    grpc.setLongitude(api.getLongitude().toString());
 	}
 	if (api.getElevation() != null) {
-	    grpc.setElevation(GOptionalDouble.newBuilder().setValue(api.getElevation()).build());
+	    grpc.setElevation(GOptionalString.newBuilder().setValue(api.getElevation().toString()).build());
 	}
 	grpc.setEvent(EventModelConverter.createGrpcDeviceEvent(api));
 	return grpc.build();
@@ -845,7 +845,8 @@ public class EventModelConverter {
      * @return
      * @throws SiteWhereException
      */
-    public static List<GDeviceLocation> asGrpcDeviceLocations(List<IDeviceLocation> apis) throws SiteWhereException {
+    public static List<GDeviceLocation> asGrpcDeviceLocations(List<? extends IDeviceLocation> apis)
+	    throws SiteWhereException {
 	List<GDeviceLocation> grpcs = new ArrayList<GDeviceLocation>();
 	for (IDeviceLocation api : apis) {
 	    grpcs.add(EventModelConverter.asGrpcDeviceLocation(api));
