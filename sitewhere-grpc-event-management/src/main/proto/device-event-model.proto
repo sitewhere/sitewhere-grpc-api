@@ -32,7 +32,7 @@ message GDeviceEventCreateRequest {
 // Request data for creating device measurement.
 message GDeviceMeasurementCreateRequest {
 	string name = 1;
-	double value = 2;
+	string value = 2;
 	GDeviceEventCreateRequest event = 3;
 }
 
@@ -61,9 +61,9 @@ message GDeviceAlertCreateRequest {
 
 // Request data for creating device location.
 message GDeviceLocationCreateRequest {
-	GOptionalDouble latitude = 1;
-	GOptionalDouble longitude = 2;
-	GOptionalDouble elevation = 3;
+	string latitude = 1;
+	string longitude = 2;
+	GOptionalString elevation = 3;
 	GDeviceEventCreateRequest event = 4;
 }
 
@@ -131,7 +131,7 @@ message GDeviceEvent {
 // Measurements event.
 message GDeviceMeasurement {
 	string name = 1;
-	double value = 2;
+	string value = 2;
 	GDeviceEvent event = 3;
 }
 
@@ -146,9 +146,9 @@ message GDeviceAlert {
 
 // Location event.
 message GDeviceLocation {
-	GOptionalDouble latitude = 1;
-	GOptionalDouble longitude = 2;
-	GOptionalDouble elevation = 3;
+	string latitude = 1;
+	string longitude = 2;
+	GOptionalString elevation = 3;
 	GDeviceEvent event = 4;
 }
 
