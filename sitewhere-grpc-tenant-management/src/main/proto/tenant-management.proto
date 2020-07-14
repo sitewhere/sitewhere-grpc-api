@@ -23,10 +23,7 @@ service TenantManagement {
 	rpc UpdateTenant (GUpdateTenantRequest) returns (GUpdateTenantResponse) {}
 
 	// Get a tenant by unique id.
-	rpc GetTenantById (GGetTenantByIdRequest) returns (GGetTenantByIdResponse) {}
-
-	// Get a tenant by token.
-	rpc GetTenantByToken (GGetTenantByTokenRequest) returns (GGetTenantByTokenResponse) {}
+	rpc GetTenant (GGetTenantRequest) returns (GGetTenantResponse) {}
 
 	// List tenants based on criteria.
 	rpc ListTenants (GListTenantsRequest) returns (GListTenantsResponse) {}
@@ -51,7 +48,7 @@ message GCreateTenantResponse {
 	
 // Request for updating a tenant.
 message GUpdateTenantRequest {
-	com.sitewhere.grpc.model.GUUID id = 1;
+	string token = 1;
 	com.sitewhere.grpc.model.GTenantCreateRequest request = 2;
 }
 
@@ -60,23 +57,13 @@ message GUpdateTenantResponse {
 	com.sitewhere.grpc.model.GTenant tenant = 1;
 }
 	
-// Request for getting a tenant by id.
-message GGetTenantByIdRequest {
-	com.sitewhere.grpc.model.GUUID id = 1;
-}
-
-// Response for getting a tenant by id.
-message GGetTenantByIdResponse {
-	com.sitewhere.grpc.model.GTenant tenant = 1;
-}
-	
 // Request for getting a tenant by token.
-message GGetTenantByTokenRequest {
+message GGetTenantRequest {
 	string token = 1;
 }
 
 // Response for getting a tenant by token.
-message GGetTenantByTokenResponse {
+message GGetTenantResponse {
 	com.sitewhere.grpc.model.GTenant tenant = 1;
 }
 
@@ -92,7 +79,7 @@ message GListTenantsResponse {
 
 // Request for deleting a tenant.
 message GDeleteTenantRequest {
-	com.sitewhere.grpc.model.GUUID id = 1;
+	string token = 1;
 }
 
 // Response for deleting a tenant.
