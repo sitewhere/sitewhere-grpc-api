@@ -335,6 +335,45 @@ message GDeviceAssignment {
 	GEntityInformation entityInformation = 9;
 }
 
+// #######################
+// ### SUMMARY RECORDS ###
+// #######################
+
+// Device assignment summary.
+message GDeviceAssignmentSummary {
+	GUUID customerId = 1;
+	GOptionalString customerName = 2;
+	GOptionalString customerImageUrl = 3;
+	GUUID areaId = 4;
+	GOptionalString areaName = 5;
+	GOptionalString areaImageUrl = 6;
+	GUUID assetId = 7;
+	GOptionalString assetName = 8;
+	GOptionalString assetImageUrl = 9;
+	GDeviceAssignmentStatus status = 10;
+	uint64 activeDate = 11;
+	uint64 releasedDate = 12;
+	GEntityInformation entityInformation = 13;
+}
+
+// Device summary.
+message GDeviceSummary {
+	GUUID deviceTypeId = 1;
+	string deviceTypeName = 2;
+	GOptionalString deviceTypeImageUrl = 3;
+	GUUID parentDeviceId = 4;
+	GOptionalString comments = 5;
+	GOptionalString status = 6;
+	repeated GDeviceAssignmentSummary deviceAssigmentSummaries = 7;
+	GEntityInformation entityInformation = 8;
+}
+
+// Results for device summary search.
+message GDeviceSummarySearchResults {
+	uint64 count = 1;
+	repeated GDeviceSummary deviceSummaries = 2;
+}
+
 // ######################
 // ### CUSTOMER TYPES ###
 // ######################
