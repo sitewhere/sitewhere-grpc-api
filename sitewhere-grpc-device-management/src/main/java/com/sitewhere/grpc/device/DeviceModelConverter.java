@@ -45,6 +45,7 @@ import com.sitewhere.grpc.model.DeviceModel.GDeviceAssignment;
 import com.sitewhere.grpc.model.DeviceModel.GDeviceAssignmentCreateRequest;
 import com.sitewhere.grpc.model.DeviceModel.GDeviceAssignmentSearchCriteria;
 import com.sitewhere.grpc.model.DeviceModel.GDeviceAssignmentSearchResults;
+import com.sitewhere.grpc.model.DeviceModel.GDeviceAssignmentSummary;
 import com.sitewhere.grpc.model.DeviceModel.GDeviceCommand;
 import com.sitewhere.grpc.model.DeviceModel.GDeviceCommandCreateRequest;
 import com.sitewhere.grpc.model.DeviceModel.GDeviceCommandSearchCriteria;
@@ -70,6 +71,8 @@ import com.sitewhere.grpc.model.DeviceModel.GDeviceStatus;
 import com.sitewhere.grpc.model.DeviceModel.GDeviceStatusCreateRequest;
 import com.sitewhere.grpc.model.DeviceModel.GDeviceStatusSearchCriteria;
 import com.sitewhere.grpc.model.DeviceModel.GDeviceStatusSearchResults;
+import com.sitewhere.grpc.model.DeviceModel.GDeviceSummary;
+import com.sitewhere.grpc.model.DeviceModel.GDeviceSummarySearchResults;
 import com.sitewhere.grpc.model.DeviceModel.GDeviceType;
 import com.sitewhere.grpc.model.DeviceModel.GDeviceTypeCreateRequest;
 import com.sitewhere.grpc.model.DeviceModel.GDeviceTypeReference;
@@ -94,8 +97,10 @@ import com.sitewhere.rest.model.customer.request.CustomerTypeCreateRequest;
 import com.sitewhere.rest.model.device.Device;
 import com.sitewhere.rest.model.device.DeviceAlarm;
 import com.sitewhere.rest.model.device.DeviceAssignment;
+import com.sitewhere.rest.model.device.DeviceAssignmentSummary;
 import com.sitewhere.rest.model.device.DeviceElementMapping;
 import com.sitewhere.rest.model.device.DeviceStatus;
+import com.sitewhere.rest.model.device.DeviceSummary;
 import com.sitewhere.rest.model.device.DeviceType;
 import com.sitewhere.rest.model.device.command.CommandParameter;
 import com.sitewhere.rest.model.device.command.DeviceCommand;
@@ -140,8 +145,10 @@ import com.sitewhere.spi.device.DeviceContainerPolicy;
 import com.sitewhere.spi.device.IDevice;
 import com.sitewhere.spi.device.IDeviceAlarm;
 import com.sitewhere.spi.device.IDeviceAssignment;
+import com.sitewhere.spi.device.IDeviceAssignmentSummary;
 import com.sitewhere.spi.device.IDeviceElementMapping;
 import com.sitewhere.spi.device.IDeviceStatus;
+import com.sitewhere.spi.device.IDeviceSummary;
 import com.sitewhere.spi.device.IDeviceType;
 import com.sitewhere.spi.device.command.ICommandParameter;
 import com.sitewhere.spi.device.command.IDeviceCommand;
@@ -1016,6 +1023,22 @@ public class DeviceModelConverter {
     }
 
     /**
+     * Convert device summary search results from GRPC to API.
+     * 
+     * @param response
+     * @return
+     * @throws SiteWhereException
+     */
+    public static ISearchResults<IDeviceSummary> asApiDeviceSummarySearchResults(GDeviceSummarySearchResults response)
+	    throws SiteWhereException {
+	List<IDeviceSummary> results = new ArrayList<IDeviceSummary>();
+	for (GDeviceSummary grpc : response.getDeviceSummariesList()) {
+	    results.add(DeviceModelConverter.asApiDeviceSummary(grpc));
+	}
+	return new SearchResults<IDeviceSummary>(results, response.getCount());
+    }
+
+    /**
      * Convert device registration request from GRPC to API.
      * 
      * @param grpc
@@ -1226,6 +1249,154 @@ public class DeviceModelConverter {
 	if (api.isExcludeAssigned()) {
 	    grpc.setExcludeAssigned(GOptionalBoolean.newBuilder().setValue(true));
 	}
+	return grpc.build();
+    }
+
+    /**
+     * Convert device assignment summary from GRPC to API.
+     * 
+     * @param grpc
+     * @return
+     * @throws SiteWhereException
+     */
+    public static DeviceAssignmentSummary asApiDeviceAssignmentSummary(GDeviceAssignmentSummary grpc)
+	    throws SiteWhereException {
+	DeviceAssignmentSummary api = new DeviceAssignmentSummary();
+	api.setStatus(CommonModelConverter.asApiDeviceAssignmentStatus(grpc.getStatus()));
+	api.setCustomerId(grpc.hasCustomerId() ? CommonModelConverter.asApiUuid(grpc.getCustomerId()) : null);
+	api.setCustomerName(grpc.hasAreaName() ? grpc.getCustomerName().getValue() : null);
+	api.setCustomerImageUrl(grpc.hasCustomerImageUrl() ? grpc.getCustomerImageUrl().getValue() : null);
+	api.setAreaId(grpc.hasAreaId() ? CommonModelConverter.asApiUuid(grpc.getAreaId()) : null);
+	api.setAreaName(grpc.hasAreaName() ? grpc.getAreaName().getValue() : null);
+	api.setAreaImageUrl(grpc.hasAreaImageUrl() ? grpc.getAreaImageUrl().getValue() : null);
+	api.setAssetId(grpc.hasAssetId() ? CommonModelConverter.asApiUuid(grpc.getAssetId()) : null);
+	api.setAssetName(grpc.hasAssetName() ? grpc.getAssetName().getValue() : null);
+	api.setAssetImageUrl(grpc.hasAssetImageUrl() ? grpc.getAssetImageUrl().getValue() : null);
+	api.setActiveDate(CommonModelConverter.asApiDate(grpc.getActiveDate()));
+	api.setReleasedDate(CommonModelConverter.asApiDate(grpc.getReleasedDate()));
+	CommonModelConverter.setEntityInformation(api, grpc.getEntityInformation());
+	return api;
+    }
+
+    /**
+     * Convert device assignment summary from API to GRPC.
+     * 
+     * @param api
+     * @return
+     * @throws SiteWhereException
+     */
+    public static GDeviceAssignmentSummary asGrpcDeviceAssignmentSummary(IDeviceAssignmentSummary api)
+	    throws SiteWhereException {
+	GDeviceAssignmentSummary.Builder grpc = GDeviceAssignmentSummary.newBuilder();
+	grpc.setStatus(CommonModelConverter.asGrpcDeviceAssignmentStatus(api.getStatus()));
+	grpc.setCustomerId(CommonModelConverter.asGrpcUuid(api.getCustomerId()));
+	if (api.getCustomerName() != null) {
+	    grpc.setCustomerName(GOptionalString.newBuilder().setValue(api.getCustomerName()));
+	}
+	if (api.getCustomerImageUrl() != null) {
+	    grpc.setCustomerImageUrl(GOptionalString.newBuilder().setValue(api.getCustomerImageUrl()));
+	}
+	grpc.setAreaId(CommonModelConverter.asGrpcUuid(api.getAreaId()));
+	if (api.getAreaName() != null) {
+	    grpc.setAreaName(GOptionalString.newBuilder().setValue(api.getAreaName()));
+	}
+	if (api.getAreaImageUrl() != null) {
+	    grpc.setAreaImageUrl(GOptionalString.newBuilder().setValue(api.getAreaImageUrl()));
+	}
+	grpc.setAssetId(CommonModelConverter.asGrpcUuid(api.getAssetId()));
+	if (api.getAssetName() != null) {
+	    grpc.setAssetName(GOptionalString.newBuilder().setValue(api.getAssetName()));
+	}
+	if (api.getAssetImageUrl() != null) {
+	    grpc.setAssetImageUrl(GOptionalString.newBuilder().setValue(api.getAssetImageUrl()));
+	}
+	grpc.setActiveDate(CommonModelConverter.asGrpcDate(api.getActiveDate()));
+	grpc.setReleasedDate(CommonModelConverter.asGrpcDate(api.getReleasedDate()));
+	grpc.setEntityInformation(CommonModelConverter.asGrpcEntityInformation(api));
+
+	return grpc.build();
+    }
+
+    /**
+     * Convert list of device assignment summaries from GRPC to API.
+     * 
+     * @param grpcs
+     * @return
+     * @throws SiteWhereException
+     */
+    public static List<IDeviceAssignmentSummary> asApiDeviceAssignmentSummaries(List<GDeviceAssignmentSummary> grpcs)
+	    throws SiteWhereException {
+	List<IDeviceAssignmentSummary> api = new ArrayList<IDeviceAssignmentSummary>();
+	for (GDeviceAssignmentSummary grpc : grpcs) {
+	    api.add(DeviceModelConverter.asApiDeviceAssignmentSummary(grpc));
+	}
+	return api;
+    }
+
+    /**
+     * Convert list of device assignment summaries from API to GRPC.
+     * 
+     * @param apis
+     * @return
+     * @throws SiteWhereException
+     */
+    public static List<GDeviceAssignmentSummary> asGrpcDeviceAssignmentSummaries(
+	    List<? extends IDeviceAssignmentSummary> apis) throws SiteWhereException {
+	List<GDeviceAssignmentSummary> grpcs = new ArrayList<GDeviceAssignmentSummary>();
+	for (IDeviceAssignmentSummary api : apis) {
+	    grpcs.add(DeviceModelConverter.asGrpcDeviceAssignmentSummary(api));
+	}
+	return grpcs;
+    }
+
+    /**
+     * Convert device summary from GRPC to API.
+     * 
+     * @param grpc
+     * @return
+     * @throws SiteWhereException
+     */
+    public static DeviceSummary asApiDeviceSummary(GDeviceSummary grpc) throws SiteWhereException {
+	DeviceSummary api = new DeviceSummary();
+	api.setDeviceTypeId(CommonModelConverter.asApiUuid(grpc.getDeviceTypeId()));
+	api.setDeviceTypeName(grpc.getDeviceTypeName());
+	api.setDeviceTypeImageUrl(grpc.hasDeviceTypeImageUrl() ? grpc.getDeviceTypeImageUrl().getValue() : null);
+	api.setStatus(grpc.hasStatus() ? grpc.getStatus().getValue() : null);
+	api.setParentDeviceId(
+		grpc.hasParentDeviceId() ? CommonModelConverter.asApiUuid(grpc.getParentDeviceId()) : null);
+	api.setComments(grpc.hasComments() ? grpc.getComments().getValue() : null);
+	api.setDeviceAssignmentSummaries(
+		DeviceModelConverter.asApiDeviceAssignmentSummaries(grpc.getDeviceAssigmentSummariesList()));
+	CommonModelConverter.setEntityInformation(api, grpc.getEntityInformation());
+	return api;
+    }
+
+    /**
+     * Convert device summary from API to GRPC.
+     * 
+     * @param api
+     * @return
+     * @throws SiteWhereException
+     */
+    public static GDeviceSummary asGrpcDeviceSummary(IDeviceSummary api) throws SiteWhereException {
+	GDeviceSummary.Builder grpc = GDeviceSummary.newBuilder();
+	grpc.setDeviceTypeId(CommonModelConverter.asGrpcUuid(api.getDeviceTypeId()));
+	grpc.setDeviceTypeName(api.getDeviceTypeName());
+	if (api.getDeviceTypeImageUrl() != null) {
+	    grpc.setDeviceTypeImageUrl(GOptionalString.newBuilder().setValue(api.getDeviceTypeImageUrl()));
+	}
+	if (api.getStatus() != null) {
+	    grpc.setStatus(GOptionalString.newBuilder().setValue(api.getStatus()));
+	}
+	if (api.getParentDeviceId() != null) {
+	    grpc.setParentDeviceId(CommonModelConverter.asGrpcUuid(api.getParentDeviceId()));
+	}
+	if (api.getComments() != null) {
+	    grpc.setComments(GOptionalString.newBuilder().setValue(api.getComments()));
+	}
+	grpc.addAllDeviceAssigmentSummaries(
+		DeviceModelConverter.asGrpcDeviceAssignmentSummaries(api.getDeviceAssignmentSummaries()));
+	grpc.setEntityInformation(CommonModelConverter.asGrpcEntityInformation(api));
 	return grpc.build();
     }
 
@@ -1688,6 +1859,9 @@ public class DeviceModelConverter {
 	grpc.setStatus(CommonModelConverter.asGrpcDeviceAssignmentStatus(api.getStatus()));
 	grpc.setDeviceId(CommonModelConverter.asGrpcUuid(api.getDeviceId()));
 	grpc.setDeviceTypeId(CommonModelConverter.asGrpcUuid(api.getDeviceTypeId()));
+	if (api.getCustomerId() != null) {
+	    grpc.setCustomerId(CommonModelConverter.asGrpcUuid(api.getCustomerId()));
+	}
 	if (api.getAreaId() != null) {
 	    grpc.setAreaId(CommonModelConverter.asGrpcUuid(api.getAreaId()));
 	}

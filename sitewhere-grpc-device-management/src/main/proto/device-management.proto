@@ -225,6 +225,9 @@ service DeviceManagement {
 	// List devices that meet criteria.
 	rpc ListDevices (GListDevicesRequest) returns (GListDevicesResponse) {}
 
+	// Get summaries for devices that meet criteria.
+	rpc ListDeviceSummaries (GListDeviceSummariesRequest) returns (GListDeviceSummariesResponse) {}
+
 	// Create a device element mapping.
 	rpc CreateDeviceElementMapping (GCreateDeviceElementMappingRequest) returns (GCreateDeviceElementMappingResponse) {}
 
@@ -949,6 +952,16 @@ message GListDevicesRequest {
 // Response for listing devices that meet criteria.
 message GListDevicesResponse {
 	com.sitewhere.grpc.model.GDeviceSearchResults results = 1;
+}
+		
+// Request for getting summaries for devices that meet criteria.
+message GListDeviceSummariesRequest {
+	com.sitewhere.grpc.model.GDeviceSearchCriteria criteria = 1;
+}
+	
+// Response for getting summaries for devices that meet criteria.
+message GListDeviceSummariesResponse {
+	com.sitewhere.grpc.model.GDeviceSummarySearchResults results = 1;
 }
 	
 // Request for creating a device element mapping.
