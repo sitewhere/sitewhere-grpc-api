@@ -50,8 +50,8 @@ import com.sitewhere.grpc.model.DeviceEventModel.GDeviceMeasurementSearchResults
 import com.sitewhere.grpc.model.DeviceEventModel.GDeviceStateChange;
 import com.sitewhere.grpc.model.DeviceEventModel.GDeviceStateChangeCreateRequest;
 import com.sitewhere.grpc.model.DeviceEventModel.GDeviceStateChangeSearchResults;
-import com.sitewhere.grpc.model.DeviceEventModel.GEnrichedEventPayload;
 import com.sitewhere.grpc.model.DeviceEventModel.GPreprocessedEventPayload;
+import com.sitewhere.grpc.model.DeviceEventModel.GProcessedEventPayload;
 import com.sitewhere.rest.model.device.event.DeviceAlert;
 import com.sitewhere.rest.model.device.event.DeviceCommandInvocation;
 import com.sitewhere.rest.model.device.event.DeviceCommandResponse;
@@ -63,8 +63,8 @@ import com.sitewhere.rest.model.device.event.DeviceLocation;
 import com.sitewhere.rest.model.device.event.DeviceMeasurement;
 import com.sitewhere.rest.model.device.event.DeviceStateChange;
 import com.sitewhere.rest.model.device.event.kafka.DecodedEventPayload;
-import com.sitewhere.rest.model.device.event.kafka.EnrichedEventPayload;
 import com.sitewhere.rest.model.device.event.kafka.PreprocessedEventPayload;
+import com.sitewhere.rest.model.device.event.kafka.ProcessedEventPayload;
 import com.sitewhere.rest.model.device.event.request.DeviceAlertCreateRequest;
 import com.sitewhere.rest.model.device.event.request.DeviceAssignmentEventCreateRequest;
 import com.sitewhere.rest.model.device.event.request.DeviceCommandInvocationCreateRequest;
@@ -93,8 +93,8 @@ import com.sitewhere.spi.device.event.IDeviceLocation;
 import com.sitewhere.spi.device.event.IDeviceMeasurement;
 import com.sitewhere.spi.device.event.IDeviceStateChange;
 import com.sitewhere.spi.device.event.kafka.IDecodedEventPayload;
-import com.sitewhere.spi.device.event.kafka.IEnrichedEventPayload;
 import com.sitewhere.spi.device.event.kafka.IPreprocessedEventPayload;
+import com.sitewhere.spi.device.event.kafka.IProcessedEventPayload;
 import com.sitewhere.spi.device.event.request.IDeviceAlertCreateRequest;
 import com.sitewhere.spi.device.event.request.IDeviceAssignmentEventCreateRequest;
 import com.sitewhere.spi.device.event.request.IDeviceCommandInvocationCreateRequest;
@@ -1133,8 +1133,8 @@ public class EventModelConverter {
      * @return
      * @throws SiteWhereException
      */
-    public static List<GDeviceCommandInvocation> asGrpcDeviceCommandInvocations(List<IDeviceCommandInvocation> apis)
-	    throws SiteWhereException {
+    public static List<GDeviceCommandInvocation> asGrpcDeviceCommandInvocations(
+	    List<? extends IDeviceCommandInvocation> apis) throws SiteWhereException {
 	List<GDeviceCommandInvocation> grpcs = new ArrayList<GDeviceCommandInvocation>();
 	for (IDeviceCommandInvocation api : apis) {
 	    grpcs.add(EventModelConverter.asGrpcDeviceCommandInvocation(api));
@@ -1297,7 +1297,7 @@ public class EventModelConverter {
      * @return
      * @throws SiteWhereException
      */
-    public static List<GDeviceCommandResponse> asGrpcDeviceCommandResponses(List<IDeviceCommandResponse> apis)
+    public static List<GDeviceCommandResponse> asGrpcDeviceCommandResponses(List<? extends IDeviceCommandResponse> apis)
 	    throws SiteWhereException {
 	List<GDeviceCommandResponse> grpcs = new ArrayList<GDeviceCommandResponse>();
 	for (IDeviceCommandResponse api : apis) {
@@ -1455,7 +1455,7 @@ public class EventModelConverter {
      * @return
      * @throws SiteWhereException
      */
-    public static List<GDeviceStateChange> asGrpcDeviceStateChanges(List<IDeviceStateChange> apis)
+    public static List<GDeviceStateChange> asGrpcDeviceStateChanges(List<? extends IDeviceStateChange> apis)
 	    throws SiteWhereException {
 	List<GDeviceStateChange> grpcs = new ArrayList<GDeviceStateChange>();
 	for (IDeviceStateChange api : apis) {
@@ -1707,14 +1707,21 @@ public class EventModelConverter {
      */
     public static DeviceEventContext asApiDeviceEventContext(GDeviceEventContext grpc) throws SiteWhereException {
 	DeviceEventContext api = new DeviceEventContext();
+	api.setDeviceToken(grpc.getDeviceToken());
+	api.setSourceId(grpc.hasSourceId() ? grpc.getSourceId().getValue() : null);
+	api.setOriginator(grpc.hasOriginator() ? grpc.getOriginator().getValue() : null);
 	api.setDeviceId(CommonModelConverter.asApiUuid(grpc.getDeviceId()));
 	api.setDeviceTypeId(CommonModelConverter.asApiUuid(grpc.getDeviceTypeId()));
 	api.setParentDeviceId(
 		grpc.hasParentDeviceId() ? CommonModelConverter.asApiUuid(grpc.getParentDeviceId()) : null);
 	api.setDeviceStatus(grpc.hasDeviceStatus() ? grpc.getDeviceStatus().getValue() : null);
 	api.setDeviceMetadata(grpc.getDeviceMetadataMap());
-	api.setAssignmentStatus(CommonModelConverter.asApiDeviceAssignmentStatus(grpc.getAssignmentStatus()));
-	api.setAssignmentMetadata(grpc.getAssignmentMetadataMap());
+	api.setDeviceAssignmentId(CommonModelConverter.asApiUuid(grpc.getDeviceAssignmentId()));
+	api.setCustomerId(CommonModelConverter.asApiUuid(grpc.getCustomerId()));
+	api.setAreaId(CommonModelConverter.asApiUuid(grpc.getAreaId()));
+	api.setAssetId(CommonModelConverter.asApiUuid(grpc.getAssetId()));
+	api.setDeviceAssignmentStatus(CommonModelConverter.asApiDeviceAssignmentStatus(grpc.getAssignmentStatus()));
+	api.setDeviceAssignmentMetadata(grpc.getAssignmentMetadataMap());
 	return api;
     }
 
@@ -1727,6 +1734,13 @@ public class EventModelConverter {
      */
     public static GDeviceEventContext asGrpcDeviceEventContext(IDeviceEventContext api) throws SiteWhereException {
 	GDeviceEventContext.Builder grpc = GDeviceEventContext.newBuilder();
+	grpc.setDeviceToken(api.getDeviceToken());
+	if (api.getOriginator() != null) {
+	    grpc.setOriginator(GOptionalString.newBuilder().setValue(api.getOriginator()));
+	}
+	if (api.getSourceId() != null) {
+	    grpc.setSourceId(GOptionalString.newBuilder().setValue(api.getSourceId()));
+	}
 	grpc.setDeviceId(CommonModelConverter.asGrpcUuid(api.getDeviceId()));
 	grpc.setDeviceTypeId(CommonModelConverter.asGrpcUuid(api.getDeviceTypeId()));
 	if (api.getParentDeviceId() != null) {
@@ -1736,8 +1750,12 @@ public class EventModelConverter {
 	    grpc.setDeviceStatus(GOptionalString.newBuilder().setValue(api.getDeviceStatus()));
 	}
 	grpc.putAllDeviceMetadata(api.getDeviceMetadata());
-	grpc.setAssignmentStatus(CommonModelConverter.asGrpcDeviceAssignmentStatus(api.getAssignmentStatus()));
-	grpc.putAllAssignmentMetadata(api.getAssignmentMetadata());
+	grpc.setDeviceAssignmentId(CommonModelConverter.asGrpcUuid(api.getDeviceAssignmentId()));
+	grpc.setCustomerId(CommonModelConverter.asGrpcUuid(api.getCustomerId()));
+	grpc.setAreaId(CommonModelConverter.asGrpcUuid(api.getAreaId()));
+	grpc.setAssetId(CommonModelConverter.asGrpcUuid(api.getAssetId()));
+	grpc.setAssignmentStatus(CommonModelConverter.asGrpcDeviceAssignmentStatus(api.getDeviceAssignmentStatus()));
+	grpc.putAllAssignmentMetadata(api.getDeviceAssignmentMetadata());
 	return grpc.build();
     }
 
@@ -1815,13 +1833,7 @@ public class EventModelConverter {
     public static GPreprocessedEventPayload asGrpcPreprocessedEventPayload(IPreprocessedEventPayload api)
 	    throws SiteWhereException {
 	GPreprocessedEventPayload.Builder grpc = GPreprocessedEventPayload.newBuilder();
-	grpc.setSourceId(api.getSourceId());
-	grpc.setDeviceToken(api.getDeviceToken());
-	if (api.getOriginator() != null) {
-	    grpc.setOriginator(GOptionalString.newBuilder().setValue(api.getOriginator()));
-	}
-	grpc.setDeviceId(CommonModelConverter.asGrpcUuid(api.getDeviceId()));
-	grpc.setDeviceAssignmentId(CommonModelConverter.asGrpcUuid(api.getDeviceAssignmentId()));
+	grpc.setContext(EventModelConverter.asGrpcDeviceEventContext(api.getEventContext()));
 	grpc.setEvent(EventModelConverter.asGrpcDeviceEventCreateRequest(api.getEventCreateRequest()));
 	return grpc.build();
     }
@@ -1836,39 +1848,36 @@ public class EventModelConverter {
     public static PreprocessedEventPayload asApiPreprocessedEventPayload(GPreprocessedEventPayload grpc)
 	    throws SiteWhereException {
 	PreprocessedEventPayload api = new PreprocessedEventPayload();
-	api.setSourceId(grpc.getSourceId());
-	api.setDeviceToken(grpc.getDeviceToken());
-	api.setOriginator(grpc.hasOriginator() ? grpc.getOriginator().getValue() : null);
-	api.setDeviceId(CommonModelConverter.asApiUuid(grpc.getDeviceId()));
-	api.setDeviceAssignmentId(CommonModelConverter.asApiUuid(grpc.getDeviceAssignmentId()));
+	api.setEventContext(EventModelConverter.asApiDeviceEventContext(grpc.getContext()));
 	api.setEventCreateRequest(EventModelConverter.asApiDeviceEventCreateRequest(grpc.getEvent()));
 	return api;
     }
 
     /**
-     * Convert enriched event payload from GRPC to API.
+     * Convert processed event payload from GRPC to API.
      * 
      * @param grpc
      * @return
      * @throws SiteWhereException
      */
-    public static EnrichedEventPayload asApiEnrichedEventPayload(GEnrichedEventPayload grpc) throws SiteWhereException {
-	EnrichedEventPayload api = new EnrichedEventPayload();
+    public static ProcessedEventPayload asApiProcessedEventPayload(GProcessedEventPayload grpc)
+	    throws SiteWhereException {
+	ProcessedEventPayload api = new ProcessedEventPayload();
 	api.setEventContext(EventModelConverter.asApiDeviceEventContext(grpc.getContext()));
 	api.setEvent(EventModelConverter.asApiGenericDeviceEvent(grpc.getEvent()));
 	return api;
     }
 
     /**
-     * Convert enriched event payload from API to GRPC.
+     * Convert processed event payload from API to GRPC.
      * 
      * @param api
      * @return
      * @throws SiteWhereException
      */
-    public static GEnrichedEventPayload asGrpcEnrichedEventPayload(IEnrichedEventPayload api)
+    public static GProcessedEventPayload asGrpcProcessedEventPayload(IProcessedEventPayload api)
 	    throws SiteWhereException {
-	GEnrichedEventPayload.Builder grpc = GEnrichedEventPayload.newBuilder();
+	GProcessedEventPayload.Builder grpc = GProcessedEventPayload.newBuilder();
 	grpc.setContext(EventModelConverter.asGrpcDeviceEventContext(api.getEventContext()));
 	grpc.setEvent(EventModelConverter.asGrpcGenericDeviceEvent(api.getEvent()));
 	return grpc.build();

@@ -264,13 +264,20 @@ message GDeviceEventBatchResponse {
 
 // Context information for a device event.
 message GDeviceEventContext {
-	GUUID deviceId = 1;
-	GUUID deviceTypeId = 2;
-	GUUID parentDeviceId = 3;
-	GOptionalString deviceStatus = 4;
-	map<string, string> deviceMetadata = 5;
-	GDeviceAssignmentStatus assignmentStatus = 6;
-	map<string, string> assignmentMetadata = 7;
+	string deviceToken = 1;
+	com.sitewhere.grpc.model.GOptionalString sourceId = 2;
+	com.sitewhere.grpc.model.GOptionalString originator = 3;
+	GUUID deviceId = 4;
+	GUUID deviceTypeId = 5;
+	GUUID parentDeviceId = 6;
+	GOptionalString deviceStatus = 7;
+	map<string, string> deviceMetadata = 8;
+	GUUID deviceAssignmentId = 9;
+	GUUID customerId = 10;
+	GUUID areaId = 11;
+	GUUID assetId = 12;
+	GDeviceAssignmentStatus assignmentStatus = 13;
+	map<string, string> assignmentMetadata = 14;
 }
 
 // Decoded inbound event payload.
@@ -283,16 +290,12 @@ message GDecodedEventPayload {
 
 // Pre-processed event payload.
 message GPreprocessedEventPayload {
-	string sourceId = 1;
-	string deviceToken = 2;
-	com.sitewhere.grpc.model.GOptionalString originator = 3;
-	com.sitewhere.grpc.model.GUUID deviceId = 4;
-	com.sitewhere.grpc.model.GUUID deviceAssignmentId = 5;
-	com.sitewhere.grpc.model.GAnyDeviceEventCreateRequest event = 6;
+	com.sitewhere.grpc.model.GDeviceEventContext context = 1;
+	com.sitewhere.grpc.model.GAnyDeviceEventCreateRequest event = 2;
 }
 
 // Enriched event payload.
-message GEnrichedEventPayload {
+message GProcessedEventPayload {
 	com.sitewhere.grpc.model.GDeviceEventContext context = 1;
 	com.sitewhere.grpc.model.GAnyDeviceEvent event = 2;
 }

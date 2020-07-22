@@ -10,8 +10,8 @@ package com.sitewhere.grpc.kafka.serdes;
 import org.apache.kafka.common.serialization.Serde;
 
 import com.sitewhere.grpc.model.DeviceEventModel.GDecodedEventPayload;
-import com.sitewhere.grpc.model.DeviceEventModel.GEnrichedEventPayload;
 import com.sitewhere.grpc.model.DeviceEventModel.GPreprocessedEventPayload;
+import com.sitewhere.grpc.model.DeviceEventModel.GProcessedEventPayload;
 import com.sitewhere.grpc.model.DeviceModel.GDeviceRegistationPayload;
 
 /**
@@ -27,8 +27,8 @@ public class SiteWhereSerdes {
 	return new PreprocessedEventPayloadSerde();
     }
 
-    public static Serde<GEnrichedEventPayload> forEnrichedEventPayload() {
-	return new EnrichedEventPayloadSerde();
+    public static Serde<GProcessedEventPayload> forProcessedEventPayload() {
+	return new ProcessedEventPayloadSerde();
     }
 
     public static Serde<GDeviceRegistationPayload> forDeviceRegistrationPayload() {

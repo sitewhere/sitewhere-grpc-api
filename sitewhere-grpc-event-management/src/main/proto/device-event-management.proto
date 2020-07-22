@@ -99,7 +99,7 @@ service DeviceEventManagement {
 	
 // Request for adding a batch of device events.
 message GAddDeviceEventBatchRequest {
-	com.sitewhere.grpc.model.GUUID deviceAssignmentId = 1;
+	com.sitewhere.grpc.model.GDeviceEventContext context = 1;
 	com.sitewhere.grpc.model.GDeviceEventBatchCreateRequest request = 2;
 }
 
@@ -138,7 +138,7 @@ message GGetDeviceEventByAlternateIdResponse {
 	
 // Request for adding measurements.
 message GAddMeasurementsRequest {
-	com.sitewhere.grpc.model.GUUID deviceAssignmentId = 1;
+	com.sitewhere.grpc.model.GDeviceEventContext context = 1;
 	repeated com.sitewhere.grpc.model.GDeviceMeasurementCreateRequest requests = 2;
 }
 	
@@ -165,7 +165,7 @@ message GListMeasurementsForIndexResponse {
 	
 // Request for adding locations.
 message GAddLocationsRequest {
-	com.sitewhere.grpc.model.GUUID deviceAssignmentId = 1;
+	com.sitewhere.grpc.model.GDeviceEventContext context = 1;
 	repeated com.sitewhere.grpc.model.GDeviceLocationCreateRequest requests = 2;
 }
 	
@@ -192,7 +192,7 @@ message GListLocationsForIndexResponse {
 	
 // Request for adding alerts.
 message GAddAlertsRequest {
-	com.sitewhere.grpc.model.GUUID deviceAssignmentId = 1;
+	com.sitewhere.grpc.model.GDeviceEventContext context = 1;
 	repeated com.sitewhere.grpc.model.GDeviceAlertCreateRequest requests = 2;
 }
 	
@@ -219,7 +219,7 @@ message GListAlertsForIndexResponse {
 	
 // Request for adding command invocations.
 message GAddCommandInvocationsRequest {
-	com.sitewhere.grpc.model.GUUID deviceAssignmentId = 1;
+	com.sitewhere.grpc.model.GDeviceEventContext context = 1;
 	repeated com.sitewhere.grpc.model.GDeviceCommandInvocationCreateRequest requests = 2;
 }
 	
@@ -246,7 +246,7 @@ message GListCommandInvocationsForIndexResponse {
 	
 // Request for adding command responses.
 message GAddCommandResponsesRequest {
-	com.sitewhere.grpc.model.GUUID deviceAssignmentId = 1;
+	com.sitewhere.grpc.model.GDeviceEventContext context = 1;
 	repeated com.sitewhere.grpc.model.GDeviceCommandResponseCreateRequest requests = 2;
 }
 	
@@ -284,7 +284,7 @@ message GListCommandResponsesForIndexResponse {
 	
 // Request for adding state changes.
 message GAddStateChangesRequest {
-	com.sitewhere.grpc.model.GUUID deviceAssignmentId = 1;
+	com.sitewhere.grpc.model.GDeviceEventContext context = 1;
 	repeated com.sitewhere.grpc.model.GDeviceStateChangeCreateRequest requests = 2;
 }
 	
