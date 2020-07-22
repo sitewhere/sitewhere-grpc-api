@@ -13,12 +13,12 @@ import java.io.IOException;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.sitewhere.grpc.common.CommonModelConverter;
 import com.sitewhere.grpc.model.DeviceEventModel.GDecodedEventPayload;
-import com.sitewhere.grpc.model.DeviceEventModel.GEnrichedEventPayload;
 import com.sitewhere.grpc.model.DeviceEventModel.GPreprocessedEventPayload;
+import com.sitewhere.grpc.model.DeviceEventModel.GProcessedEventPayload;
 import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.device.event.kafka.IDecodedEventPayload;
-import com.sitewhere.spi.device.event.kafka.IEnrichedEventPayload;
 import com.sitewhere.spi.device.event.kafka.IPreprocessedEventPayload;
+import com.sitewhere.spi.device.event.kafka.IProcessedEventPayload;
 
 /**
  * Methods that support marshaling/unmarshaling event model payloads.
@@ -120,13 +120,13 @@ public class EventModelMarshaler {
     }
 
     /**
-     * Build binary message for GRPC enriched event payload.
+     * Build binary message for GRPC processed event payload.
      * 
      * @param grpc
      * @return
      * @throws SiteWhereException
      */
-    public static byte[] buildEnrichedEventPayloadMessage(GEnrichedEventPayload grpc) throws SiteWhereException {
+    public static byte[] buildProcessedEventPayloadMessage(GProcessedEventPayload grpc) throws SiteWhereException {
 	ByteArrayOutputStream output = new ByteArrayOutputStream();
 	try {
 	    grpc.writeTo(output);
@@ -139,29 +139,29 @@ public class EventModelMarshaler {
     }
 
     /**
-     * Build binary message for API enriched event payload.
+     * Build binary message for API processed event payload.
      * 
      * @param api
      * @return
      * @throws SiteWhereException
      */
-    public static byte[] buildEnrichedEventPayloadMessage(IEnrichedEventPayload api) throws SiteWhereException {
-	GEnrichedEventPayload grpc = EventModelConverter.asGrpcEnrichedEventPayload(api);
-	return buildEnrichedEventPayloadMessage(grpc);
+    public static byte[] buildProcessedEventPayloadMessage(IProcessedEventPayload api) throws SiteWhereException {
+	GProcessedEventPayload grpc = EventModelConverter.asGrpcProcessedEventPayload(api);
+	return buildProcessedEventPayloadMessage(grpc);
     }
 
     /**
-     * Parse message that contains an enriched event payload.
+     * Parse message that contains a processed event payload.
      * 
      * @param payload
      * @return
      * @throws SiteWhereException
      */
-    public static GEnrichedEventPayload parseEnrichedEventPayloadMessage(byte[] payload) throws SiteWhereException {
+    public static GProcessedEventPayload parseProcessedEventPayloadMessage(byte[] payload) throws SiteWhereException {
 	try {
-	    return GEnrichedEventPayload.parseFrom(payload);
+	    return GProcessedEventPayload.parseFrom(payload);
 	} catch (InvalidProtocolBufferException e) {
-	    throw new SiteWhereException("Unable to parse enriched event payload message.", e);
+	    throw new SiteWhereException("Unable to parse processed event payload message.", e);
 	}
     }
 }
