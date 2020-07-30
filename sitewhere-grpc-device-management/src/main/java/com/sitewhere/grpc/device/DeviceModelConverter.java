@@ -46,6 +46,7 @@ import com.sitewhere.grpc.model.DeviceModel.GDeviceAssignmentCreateRequest;
 import com.sitewhere.grpc.model.DeviceModel.GDeviceAssignmentSearchCriteria;
 import com.sitewhere.grpc.model.DeviceModel.GDeviceAssignmentSearchResults;
 import com.sitewhere.grpc.model.DeviceModel.GDeviceAssignmentSummary;
+import com.sitewhere.grpc.model.DeviceModel.GDeviceAssignmentSummarySearchResults;
 import com.sitewhere.grpc.model.DeviceModel.GDeviceCommand;
 import com.sitewhere.grpc.model.DeviceModel.GDeviceCommandCreateRequest;
 import com.sitewhere.grpc.model.DeviceModel.GDeviceCommandSearchCriteria;
@@ -1039,6 +1040,22 @@ public class DeviceModelConverter {
     }
 
     /**
+     * Convert device assignment summary search results from GRPC to API.
+     * 
+     * @param response
+     * @return
+     * @throws SiteWhereException
+     */
+    public static ISearchResults<IDeviceAssignmentSummary> asApiDeviceAssignmentSummarySearchResults(
+	    GDeviceAssignmentSummarySearchResults response) throws SiteWhereException {
+	List<IDeviceAssignmentSummary> results = new ArrayList<IDeviceAssignmentSummary>();
+	for (GDeviceAssignmentSummary grpc : response.getDeviceAssignmentSummariesList()) {
+	    results.add(DeviceModelConverter.asApiDeviceAssignmentSummary(grpc));
+	}
+	return new SearchResults<IDeviceAssignmentSummary>(results, response.getCount());
+    }
+
+    /**
      * Convert device registration request from GRPC to API.
      * 
      * @param grpc
@@ -1263,6 +1280,11 @@ public class DeviceModelConverter {
 	    throws SiteWhereException {
 	DeviceAssignmentSummary api = new DeviceAssignmentSummary();
 	api.setStatus(CommonModelConverter.asApiDeviceAssignmentStatus(grpc.getStatus()));
+	api.setDeviceId(CommonModelConverter.asApiUuid(grpc.getDeviceId()));
+	api.setDeviceToken(grpc.getDeviceToken());
+	api.setDeviceTypeId(CommonModelConverter.asApiUuid(grpc.getDeviceTypeId()));
+	api.setDeviceTypeName(grpc.getDeviceTypeName());
+	api.setDeviceTypeImageUrl(grpc.getDeviceTypeImageUrl());
 	api.setCustomerId(grpc.hasCustomerId() ? CommonModelConverter.asApiUuid(grpc.getCustomerId()) : null);
 	api.setCustomerName(grpc.hasAreaName() ? grpc.getCustomerName().getValue() : null);
 	api.setCustomerImageUrl(grpc.hasCustomerImageUrl() ? grpc.getCustomerImageUrl().getValue() : null);
@@ -1289,21 +1311,32 @@ public class DeviceModelConverter {
 	    throws SiteWhereException {
 	GDeviceAssignmentSummary.Builder grpc = GDeviceAssignmentSummary.newBuilder();
 	grpc.setStatus(CommonModelConverter.asGrpcDeviceAssignmentStatus(api.getStatus()));
-	grpc.setCustomerId(CommonModelConverter.asGrpcUuid(api.getCustomerId()));
+	grpc.setDeviceId(CommonModelConverter.asGrpcUuid(api.getDeviceId()));
+	grpc.setDeviceToken(api.getDeviceToken());
+	grpc.setDeviceTypeId(CommonModelConverter.asGrpcUuid(api.getDeviceTypeId()));
+	grpc.setDeviceTypeName(api.getDeviceTypeName());
+	grpc.setDeviceTypeImageUrl(api.getDeviceTypeImageUrl());
+	if (api.getCustomerId() != null) {
+	    grpc.setCustomerId(CommonModelConverter.asGrpcUuid(api.getCustomerId()));
+	}
 	if (api.getCustomerName() != null) {
 	    grpc.setCustomerName(GOptionalString.newBuilder().setValue(api.getCustomerName()));
 	}
 	if (api.getCustomerImageUrl() != null) {
 	    grpc.setCustomerImageUrl(GOptionalString.newBuilder().setValue(api.getCustomerImageUrl()));
 	}
-	grpc.setAreaId(CommonModelConverter.asGrpcUuid(api.getAreaId()));
+	if (api.getAreaId() != null) {
+	    grpc.setAreaId(CommonModelConverter.asGrpcUuid(api.getAreaId()));
+	}
 	if (api.getAreaName() != null) {
 	    grpc.setAreaName(GOptionalString.newBuilder().setValue(api.getAreaName()));
 	}
 	if (api.getAreaImageUrl() != null) {
 	    grpc.setAreaImageUrl(GOptionalString.newBuilder().setValue(api.getAreaImageUrl()));
 	}
-	grpc.setAssetId(CommonModelConverter.asGrpcUuid(api.getAssetId()));
+	if (api.getAssetId() != null) {
+	    grpc.setAssetId(CommonModelConverter.asGrpcUuid(api.getAssetId()));
+	}
 	if (api.getAssetName() != null) {
 	    grpc.setAssetName(GOptionalString.newBuilder().setValue(api.getAssetName()));
 	}
