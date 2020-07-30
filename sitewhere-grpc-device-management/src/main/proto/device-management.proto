@@ -295,6 +295,9 @@ service DeviceManagement {
 		
 	// List device assignments that match criteria.
 	rpc ListDeviceAssignments (GListDeviceAssignmentsRequest) returns (GListDeviceAssignmentsResponse) {}
+			
+	// List device assignments summaries that match criteria.
+	rpc ListDeviceAssignmentSummaries (GListDeviceAssignmentSummariesRequest) returns (GListDeviceAssignmentSummariesResponse) {}
 	
 	// End a device assignment.
 	rpc EndDeviceAssignment (GEndDeviceAssignmentRequest) returns (GEndDeviceAssignmentResponse) {}
@@ -1069,6 +1072,16 @@ message GListDeviceAssignmentsRequest {
 // Response for listing device assignments that match criteria.
 message GListDeviceAssignmentsResponse {
 	com.sitewhere.grpc.model.GDeviceAssignmentSearchResults results = 1;
+}
+	
+// Request for listing device assignment summaries that match criteria.
+message GListDeviceAssignmentSummariesRequest {
+	com.sitewhere.grpc.model.GDeviceAssignmentSearchCriteria criteria = 1;
+}
+	
+// Response for listing device assignment summaries that match criteria.
+message GListDeviceAssignmentSummariesResponse {
+	com.sitewhere.grpc.model.GDeviceAssignmentSummarySearchResults results = 1;
 }
 	
 // Request for ending a device assignment.
