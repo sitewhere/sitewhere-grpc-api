@@ -2270,6 +2270,22 @@ public class DeviceModelConverter {
     }
 
     /**
+     * Convert list of customer types from GRPC to API.
+     * 
+     * @param grpcs
+     * @return
+     * @throws SiteWhereException
+     */
+    public static List<? extends ICustomerType> asApiCustomerTypes(Collection<GCustomerType> grpcs)
+	    throws SiteWhereException {
+	List<ICustomerType> apis = new ArrayList<>();
+	for (GCustomerType grpc : grpcs) {
+	    apis.add(DeviceModelConverter.asApiCustomerType(grpc));
+	}
+	return apis;
+    }
+
+    /**
      * Convert customer type from API to GRPC.
      * 
      * @param api
@@ -2283,6 +2299,22 @@ public class DeviceModelConverter {
 	grpc.setEntityInformation(CommonModelConverter.asGrpcEntityInformation(api));
 	grpc.setBranding(CommonModelConverter.asGrpcBrandingInformation(api));
 	return grpc.build();
+    }
+
+    /**
+     * Convert list of customer types from API to GRPC.
+     * 
+     * @param apis
+     * @return
+     * @throws SiteWhereException
+     */
+    public static List<GCustomerType> asGrpcCustomerTypes(List<? extends ICustomerType> apis)
+	    throws SiteWhereException {
+	List<GCustomerType> grpcs = new ArrayList<>();
+	for (ICustomerType api : apis) {
+	    grpcs.add(DeviceModelConverter.asGrpcCustomerType(api));
+	}
+	return grpcs;
     }
 
     /**
@@ -2610,6 +2642,21 @@ public class DeviceModelConverter {
     }
 
     /**
+     * Convert list of area types from GRPC to API.
+     * 
+     * @param grpcs
+     * @return
+     * @throws SiteWhereException
+     */
+    public static List<? extends IAreaType> asApiAreaTypes(Collection<GAreaType> grpcs) throws SiteWhereException {
+	List<IAreaType> apis = new ArrayList<>();
+	for (GAreaType grpc : grpcs) {
+	    apis.add(DeviceModelConverter.asApiAreaType(grpc));
+	}
+	return apis;
+    }
+
+    /**
      * Convert area type from API to GRPC.
      * 
      * @param api
@@ -2623,6 +2670,21 @@ public class DeviceModelConverter {
 	grpc.setEntityInformation(CommonModelConverter.asGrpcEntityInformation(api));
 	grpc.setBranding(CommonModelConverter.asGrpcBrandingInformation(api));
 	return grpc.build();
+    }
+
+    /**
+     * Convert list of area types from API to GRPC.
+     * 
+     * @param apis
+     * @return
+     * @throws SiteWhereException
+     */
+    public static List<GAreaType> asGrpcAreaTypes(List<? extends IAreaType> apis) throws SiteWhereException {
+	List<GAreaType> grpcs = new ArrayList<>();
+	for (IAreaType api : apis) {
+	    grpcs.add(DeviceModelConverter.asGrpcAreaType(api));
+	}
+	return grpcs;
     }
 
     /**
