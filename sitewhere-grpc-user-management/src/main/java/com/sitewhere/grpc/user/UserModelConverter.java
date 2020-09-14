@@ -1,9 +1,17 @@
-/*
- * Copyright (c) SiteWhere, LLC. All rights reserved. http://www.sitewhere.com
+/**
+ * Copyright © 2014-2020 The SiteWhere Authors
  *
- * The software in this package is published under the terms of the CPAL v1.0
- * license, a copy of which has been included with this distribution in the
- * LICENSE.txt file.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.sitewhere.grpc.user;
 
@@ -133,7 +141,7 @@ public class UserModelConverter {
 	}
 
 	if (api.getRoles() != null) {
-		builder.addAllRoles(api.getRoles());
+	    builder.addAllRoles(api.getRoles());
 	}
 
 	if (api.getMetadata() != null) {
@@ -437,8 +445,7 @@ public class UserModelConverter {
      * @return
      * @throws SiteWhereException
      */
-    public static List<IRole> asApiRoles(List<GRole> grpcs)
-		    throws SiteWhereException {
+    public static List<IRole> asApiRoles(List<GRole> grpcs) throws SiteWhereException {
 	List<IRole> api = new ArrayList<IRole>();
 	for (GRole gRole : grpcs) {
 	    api.add(UserModelConverter.asApiRole(gRole));
@@ -469,14 +476,13 @@ public class UserModelConverter {
      * @return
      * @throws SiteWhereException
      */
-    public static GRoleCreateRequest asGrpcRoleCreateRequest(IRoleCreateRequest api)
-		    throws SiteWhereException {
+    public static GRoleCreateRequest asGrpcRoleCreateRequest(IRoleCreateRequest api) throws SiteWhereException {
 	GRoleCreateRequest.Builder builder = GRoleCreateRequest.newBuilder();
 	builder.setRole(api.getRole());
 	builder.setDescription(api.getDescription());
 
 	if (api.getAuthorities() != null) {
-		builder.addAllAuthorities(api.getAuthorities());
+	    builder.addAllAuthorities(api.getAuthorities());
 	}
 
 	return builder.build();
