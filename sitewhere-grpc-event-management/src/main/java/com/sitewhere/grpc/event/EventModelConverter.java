@@ -1758,11 +1758,22 @@ public class EventModelConverter {
 	    grpc.setDeviceStatus(GOptionalString.newBuilder().setValue(api.getDeviceStatus()));
 	}
 	grpc.putAllDeviceMetadata(api.getDeviceMetadata());
-	grpc.setDeviceAssignmentId(CommonModelConverter.asGrpcUuid(api.getDeviceAssignmentId()));
-	grpc.setCustomerId(CommonModelConverter.asGrpcUuid(api.getCustomerId()));
-	grpc.setAreaId(CommonModelConverter.asGrpcUuid(api.getAreaId()));
-	grpc.setAssetId(CommonModelConverter.asGrpcUuid(api.getAssetId()));
-	grpc.setAssignmentStatus(CommonModelConverter.asGrpcDeviceAssignmentStatus(api.getDeviceAssignmentStatus()));
+	if (api.getDeviceAssignmentId() != null) {
+	    grpc.setDeviceAssignmentId(CommonModelConverter.asGrpcUuid(api.getDeviceAssignmentId()));
+	}
+	if (api.getCustomerId() != null) {
+	    grpc.setCustomerId(CommonModelConverter.asGrpcUuid(api.getCustomerId()));
+	}
+	if (api.getAreaId() != null) {
+	    grpc.setAreaId(CommonModelConverter.asGrpcUuid(api.getAreaId()));
+	}
+	if (api.getAssetId() != null) {
+	    grpc.setAssetId(CommonModelConverter.asGrpcUuid(api.getAssetId()));
+	}
+	if (api.getDeviceAssignmentStatus() != null) {
+	    grpc.setAssignmentStatus(
+		    CommonModelConverter.asGrpcDeviceAssignmentStatus(api.getDeviceAssignmentStatus()));
+	}
 	grpc.putAllAssignmentMetadata(api.getDeviceAssignmentMetadata());
 	return grpc.build();
     }
