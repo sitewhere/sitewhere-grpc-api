@@ -1083,6 +1083,7 @@ public class DeviceModelConverter {
 	api.setMetadata(grpc.getMetadataMap());
 	api.setCustomerToken(grpc.hasCustomerToken() ? grpc.getCustomerToken().getValue() : null);
 	api.setAreaToken(grpc.hasAreaToken() ? grpc.getAreaToken().getValue() : null);
+	api.setAssetToken(grpc.hasAssetToken() ? grpc.getAssetToken().getValue() : null);
 	return api;
     }
 
@@ -1121,6 +1122,9 @@ public class DeviceModelConverter {
 	}
 	if (api.getAreaToken() != null) {
 	    grpc.setAreaToken(GOptionalString.newBuilder().setValue(api.getAreaToken()));
+	}
+	if (api.getAssetToken() != null) {
+	    grpc.setAssetToken(GOptionalString.newBuilder().setValue(api.getAssetToken()));
 	}
 	return grpc.build();
     }
