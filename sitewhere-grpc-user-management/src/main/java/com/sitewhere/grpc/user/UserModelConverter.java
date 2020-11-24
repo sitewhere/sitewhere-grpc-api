@@ -27,13 +27,13 @@ import com.sitewhere.grpc.model.UserModel.GGrantedAuthority;
 import com.sitewhere.grpc.model.UserModel.GGrantedAuthorityCreateRequest;
 import com.sitewhere.grpc.model.UserModel.GGrantedAuthoritySearchCriteria;
 import com.sitewhere.grpc.model.UserModel.GGrantedAuthoritySearchResults;
+import com.sitewhere.grpc.model.UserModel.GRole;
+import com.sitewhere.grpc.model.UserModel.GRoleCreateRequest;
+import com.sitewhere.grpc.model.UserModel.GRoleSearchResults;
 import com.sitewhere.grpc.model.UserModel.GUser;
 import com.sitewhere.grpc.model.UserModel.GUserCreateRequest;
 import com.sitewhere.grpc.model.UserModel.GUserSearchCriteria;
 import com.sitewhere.grpc.model.UserModel.GUserSearchResults;
-import com.sitewhere.grpc.model.UserModel.GRole;
-import com.sitewhere.grpc.model.UserModel.GRoleCreateRequest;
-import com.sitewhere.grpc.model.UserModel.GRoleSearchResults;
 import com.sitewhere.rest.model.search.SearchResults;
 import com.sitewhere.rest.model.user.GrantedAuthority;
 import com.sitewhere.rest.model.user.Role;
@@ -42,7 +42,12 @@ import com.sitewhere.rest.model.user.request.GrantedAuthorityCreateRequest;
 import com.sitewhere.rest.model.user.request.UserCreateRequest;
 import com.sitewhere.spi.SiteWhereException;
 import com.sitewhere.spi.search.ISearchResults;
-import com.sitewhere.spi.user.*;
+import com.sitewhere.spi.user.AccountStatus;
+import com.sitewhere.spi.user.IGrantedAuthority;
+import com.sitewhere.spi.user.IGrantedAuthoritySearchCriteria;
+import com.sitewhere.spi.user.IRole;
+import com.sitewhere.spi.user.IUser;
+import com.sitewhere.spi.user.IUserSearchCriteria;
 import com.sitewhere.spi.user.request.IGrantedAuthorityCreateRequest;
 import com.sitewhere.spi.user.request.IRoleCreateRequest;
 import com.sitewhere.spi.user.request.IUserCreateRequest;
@@ -105,6 +110,7 @@ public class UserModelConverter {
 	api.setPassword(grpc.hasPassword() ? grpc.getPassword().getValue() : null);
 	api.setFirstName(grpc.hasFirstName() ? grpc.getFirstName().getValue() : null);
 	api.setLastName(grpc.hasLastName() ? grpc.getLastName().getValue() : null);
+	api.setEmail(grpc.hasEmail() ? grpc.getEmail().getValue() : null);
 	api.setStatus(UserModelConverter.asApiAccountStatus(grpc.getStatus()));
 	if (grpc.getRolesList().size() > 0) {
 	    List<String> roles = new ArrayList<>();
@@ -136,6 +142,9 @@ public class UserModelConverter {
 	if (api.getLastName() != null) {
 	    builder.setLastName(GOptionalString.newBuilder().setValue(api.getLastName()));
 	}
+	if (api.getEmail() != null) {
+	    builder.setEmail(GOptionalString.newBuilder().setValue(api.getEmail()));
+	}
 	if (api.getStatus() != null) {
 	    builder.setStatus(UserModelConverter.asGrpcAccountStatus(api.getStatus()));
 	}
@@ -160,9 +169,9 @@ public class UserModelConverter {
     public static IUser asApiUser(GUser grpc) throws SiteWhereException {
 	User api = new User();
 	api.setUsername(grpc.getUsername());
-	api.setHashedPassword(grpc.getHashedPassword());
 	api.setFirstName(grpc.getFirstName());
 	api.setLastName(grpc.getLastName());
+	api.setEmail(grpc.getEmail());
 	api.setStatus(UserModelConverter.asApiAccountStatus(grpc.getStatus()));
 	api.setLastLogin(CommonModelConverter.asApiDate(grpc.getLastLogin()));
 	api.getRoles().addAll(UserModelConverter.asApiRoles(grpc.getRolesList()));
@@ -180,9 +189,9 @@ public class UserModelConverter {
     public static GUser asGrpcUser(IUser api) throws SiteWhereException {
 	GUser.Builder builder = UserModel.GUser.newBuilder();
 	builder.setUsername(api.getUsername());
-	builder.setHashedPassword(api.getHashedPassword());
 	builder.setFirstName(api.getFirstName());
 	builder.setLastName(api.getLastName());
+	builder.setEmail(api.getEmail());
 	builder.setStatus(UserModelConverter.asGrpcAccountStatus(api.getStatus()));
 	builder.setLastLogin(CommonModelConverter.asGrpcDate(api.getLastLogin()));
 
