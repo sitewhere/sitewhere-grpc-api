@@ -55,15 +55,6 @@ service UserManagement {
 	// Delete an existing granted authority.
 	rpc DeleteGrantedAuthority (GDeleteGrantedAuthorityRequest) returns (GDeleteGrantedAuthorityResponse) {}
 
-	// Get granted authorities for a user.
-	rpc GetGrantedAuthoritiesForUser (GGetGrantedAuthoritiesRequest) returns (GGetGrantedAuthoritiesResponse) {}
-
-	// Add granted authorities for a user.
-	rpc AddGrantedAuthoritiesForUser (GAddGrantedAuthoritiesRequest) returns (GAddGrantedAuthoritiesResponse) {}
-
-	// Remove granted authorities for a user.
-	rpc RemoveGrantedAuthoritiesForUser (GRemoveGrantedAuthoritiesRequest) returns (GRemoveGrantedAuthoritiesResponse) {}
-
 	// ###########################
     // ### Roles ###
     // ###########################
@@ -218,11 +209,6 @@ message GListGrantedAuthoritiesResponse {
 	com.sitewhere.grpc.model.GGrantedAuthoritySearchResults results = 1;
 }
 
-// Request for getting granted authorities for a user.
-message GGetGrantedAuthoritiesRequest {
-	string username = 1;
-}
-
 // Request for deleting a granted authority.
 message GDeleteGrantedAuthorityRequest {
 	string name = 1;
@@ -231,33 +217,6 @@ message GDeleteGrantedAuthorityRequest {
 // Response for deleting a granted authority.
 message GDeleteGrantedAuthorityResponse {
 	com.sitewhere.grpc.model.GGrantedAuthority authority = 1;
-}
-
-// Response for getting granted authorities for a user.
-message GGetGrantedAuthoritiesResponse {
-	repeated com.sitewhere.grpc.model.GGrantedAuthority authorities = 1;
-}
-
-// Request for adding granted authorities for a user.
-message GAddGrantedAuthoritiesRequest {
-	string username = 1;
-	repeated string authorities = 2;
-}
-
-// Response for adding granted authorities for a user.
-message GAddGrantedAuthoritiesResponse {
-	repeated com.sitewhere.grpc.model.GGrantedAuthority authorities = 1;
-}
-
-// Request for removing granted authorities for a user.
-message GRemoveGrantedAuthoritiesRequest {
-	string username = 1;
-	repeated string authorities = 2;
-}
-
-// Response for removing granted authorities for a user.
-message GRemoveGrantedAuthoritiesResponse {
-	repeated com.sitewhere.grpc.model.GGrantedAuthority authorities = 1;
 }
 
 // ###########################
