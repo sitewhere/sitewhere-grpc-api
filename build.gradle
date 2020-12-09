@@ -14,7 +14,7 @@ apply plugin: 'distribution'
 
 allprojects {
 	group = 'com.sitewhere'
-	version = '3.0.0.beta19'
+	version = '3.0.0.beta20'
 	repositories {
 		maven { url "https://repo.maven.apache.org/maven2" }
 		mavenLocal()
