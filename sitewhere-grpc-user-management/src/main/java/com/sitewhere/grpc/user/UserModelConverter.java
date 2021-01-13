@@ -111,7 +111,7 @@ public class UserModelConverter {
 	api.setFirstName(grpc.hasFirstName() ? grpc.getFirstName().getValue() : null);
 	api.setLastName(grpc.hasLastName() ? grpc.getLastName().getValue() : null);
 	api.setEmail(grpc.hasEmail() ? grpc.getEmail().getValue() : null);
-	api.setStatus(UserModelConverter.asApiAccountStatus(grpc.getStatus()));
+	api.setEnabled(grpc.getEnabled());
 	if (grpc.getRolesList().size() > 0) {
 	    List<String> roles = new ArrayList<>();
 	    roles.addAll(grpc.getRolesList());
@@ -145,9 +145,7 @@ public class UserModelConverter {
 	if (api.getEmail() != null) {
 	    builder.setEmail(GOptionalString.newBuilder().setValue(api.getEmail()));
 	}
-	if (api.getStatus() != null) {
-	    builder.setStatus(UserModelConverter.asGrpcAccountStatus(api.getStatus()));
-	}
+	builder.setEnabled(api.isEnabled());
 
 	if (api.getRoles() != null) {
 	    builder.addAllRoles(api.getRoles());
@@ -172,8 +170,7 @@ public class UserModelConverter {
 	api.setFirstName(grpc.getFirstName());
 	api.setLastName(grpc.getLastName());
 	api.setEmail(grpc.getEmail());
-	api.setStatus(UserModelConverter.asApiAccountStatus(grpc.getStatus()));
-	api.setLastLogin(CommonModelConverter.asApiDate(grpc.getLastLogin()));
+	api.setEnabled(grpc.getEnabled());
 	api.getRoles().addAll(UserModelConverter.asApiRoles(grpc.getRolesList()));
 	CommonModelConverter.setEntityInformation(api, grpc.getEntityInformation());
 	return api;
@@ -192,8 +189,7 @@ public class UserModelConverter {
 	builder.setFirstName(api.getFirstName());
 	builder.setLastName(api.getLastName());
 	builder.setEmail(api.getEmail());
-	builder.setStatus(UserModelConverter.asGrpcAccountStatus(api.getStatus()));
-	builder.setLastLogin(CommonModelConverter.asGrpcDate(api.getLastLogin()));
+	builder.setEnabled(api.isEnabled());
 
 	if (api.getRoles() != null) {
 	    builder.addAllRoles(UserModelConverter.asGrpcRoles(api.getRoles()));
