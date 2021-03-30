@@ -1,23 +1,20 @@
-buildscript {
-	repositories {
-		maven { url "https://plugins.gradle.org/m2/" }
- 	}
-	dependencies {
-		classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.8'
-		classpath "gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:0.14.0"
-	}
+plugins {
+    id 'org.springframework.boot' version '2.4.4' apply false
+    id 'com.github.hierynomus.license' version '0.15.0'
+    id 'com.google.protobuf' version '0.8.15'
+    id 'java'
+    id 'distribution'
 }
 
 ext['grpc.version'] = '1.26.0'
 
-apply plugin: 'distribution'
-
 allprojects {
 	group = 'com.sitewhere'
-	version = '3.0.0'
+	version = '3.1.0'
+	
 	repositories {
-		maven { url "https://repo.maven.apache.org/maven2" }
-		mavenLocal()
+        mavenLocal()
+		mavenCentral()
 	}
 }
 
@@ -37,11 +34,11 @@ subprojects {
 
 	// Common dependencies used for all projects.
 	dependencies {
-		// Use Quarkus for library versions.
-		compile platform('io.quarkus:quarkus-bom:1.7.2.Final')
+        // Sping dependency managment.
+        implementation platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES)
 
 		// SiteWhere Java model.
-		compile group: 'com.sitewhere', name: 'sitewhere-java-model', version: '3.0.0'
+		compile group: 'com.sitewhere', name: 'sitewhere-java-model', version: '3.1.0'
 
 		// Common utility functions.
 		compile group: 'org.apache.commons', name: 'commons-lang3'
