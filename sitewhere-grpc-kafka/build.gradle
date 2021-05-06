@@ -1,11 +1,13 @@
 description = 'SiteWhere gRPC Kafka Support'
 
+apply plugin: 'java-library'
 dependencies {
-    compile project(':sitewhere-grpc-device-management')
-    compile project(':sitewhere-grpc-event-management')
+    api project(':sitewhere-grpc-common')
+    implementation project(':sitewhere-grpc-device-management')
+    implementation project(':sitewhere-grpc-event-management')
 
-	// Kafka streams.
-	compile group: 'org.apache.kafka', name: 'kafka-streams'
+    // Kafka streams.
+    implementation group: 'org.apache.kafka', name: 'kafka-streams'
 }
 
 task sourcesJar(type: Jar) {

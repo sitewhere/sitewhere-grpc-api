@@ -2,29 +2,24 @@ description = 'SiteWhere GRPC Model'
 
 apply plugin: 'com.google.protobuf'
 
+apply plugin: 'java-library'
 dependencies {
-	compile group: 'io.grpc', name: 'grpc-stub', version: "${rootProject.ext['grpc.version']}"
-	compile group: 'io.grpc', name: 'grpc-protobuf', version: "${rootProject.ext['grpc.version']}"
-	compile group: 'io.grpc', name: 'grpc-netty', version: "${rootProject.ext['grpc.version']}"
+	api group: 'io.grpc', name: 'grpc-stub', version: "${rootProject.ext['grpc.version']}"
+	api group: 'io.grpc', name: 'grpc-protobuf', version: "${rootProject.ext['grpc.version']}"
+	api group: 'io.grpc', name: 'grpc-netty', version: "${rootProject.ext['grpc.version']}"
 }
 
 protobuf {
-
-	// Configure the protoc executable
 	protoc {
-
-		// Download from repositories.
-		artifact = "com.google.protobuf:protoc:3.3.0"
+		artifact = "com.google.protobuf:protoc:${rootProject.ext['grpc.protoc.version']}"
 	}
 
-  	// Add GRPC plugin.
 	plugins {
 		grpc {
 			artifact = "io.grpc:protoc-gen-grpc-java:${rootProject.ext['grpc.version']}"
 		}
 	}
 
-	// Choose which tasks are executed.
 	generateProtoTasks {
 		all().each { task ->
       		task.plugins {
